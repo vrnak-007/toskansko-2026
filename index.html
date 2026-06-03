@@ -29,8 +29,11 @@
   .stop .t small { display: block; color: #93846a; font-size: 11.5px; }
   .routeinfo { font-size: 12px; color: #7a6f5c; padding: 6px 8px 0; font-style: italic; }
   .tips { background: #fff; border: 1px solid #e8dfcd; border-radius: 10px; padding: 12px; font-size: 12.5px; color: #4d4334; line-height: 1.55; margin-top: 6px; }
-  .tips h3 { font-family: Georgia, serif; color: #7a3b2e; font-size: 14.5px; margin-bottom: 6px; }
-  .tips ul { padding-left: 16px; }
+  .tips h3 { font-family: Georgia, serif; color: #7a3b2e; font-size: 14.5px; margin-bottom: 0; cursor: pointer; user-select: none; }
+  .tips ul { padding-left: 16px; display: none; margin-top: 8px; }
+  .tips.open ul { display: block; }
+  .chev { float: right; font-size: 12px; opacity: .8; transition: transform .2s; }
+  .day-card.open .chev, .tips.open .chev { transform: rotate(180deg); }
   .tips li { margin-bottom: 5px; }
   .heart { color: #c84b6b; }
   /* popup */
@@ -72,7 +75,7 @@
     <div class="sub">27. 6. – 1. 7. 2026 · Borgo Il Poggiaccio (Sovicille) → LunArt (Florencie)<br>Klikněte na den nebo zastávku — mapa vás tam zaveze.</div>
     <div id="days"></div>
     <div class="tips">
-      <h3>Praktické tipy <span class="heart">♥</span></h3>
+      <h3 onclick="this.parentNode.classList.toggle('open')">Praktické tipy <span class="heart">♥</span> <span class="chev">▼</span></h3>
       <ul>
         <li><b>Palio di Siena:</b> 2. 7. se běží Palio di Provenzano. Během vašeho pobytu probíhají v Sieně na Piazza del Campo <b>zkušební jízdy (prove) zdarma</b> – 29. 6. večer (~19:45) a 30. 6. ráno (~9:00) i večer. Jedinečná atmosféra kontrad, kterou většina turistů nezažije.</li>
         <li><b>Florencie – pozor na ZTL:</b> centrum je zóna se zákazem vjezdu (kamery, pokuty ~100 €). LunArt je v Oltrarnu uvnitř ZTL – auto nechte v garáži (např. Garage Lungarno della Zecca) nebo zdarma u Piazzale Michelangelo a do hotelu dojděte/dojeďte autobusem. Ověřte si u hosta možnost registrace SPZ.</li>
@@ -336,9 +339,9 @@ const daysEl = document.getElementById('days');
 Object.entries(DAYS).forEach(([dnum, d]) => {
   const items = POIS.filter(p => p.day == dnum);
   const card = document.createElement('div');
-  card.className = 'day-card' + (dnum == 1 ? ' open' : '');
+  card.className = 'day-card';
   card.innerHTML = `
-    <div class="day-head" style="background:${d.color}"><span>${d.label}</span><small>${d.desc}</small></div>
+    <div class="day-head" style="background:${d.color}"><span>${d.label}</span><small>${d.desc} <span class="chev">▼</span></small></div>
     <div class="day-body">
       ${dnum != 6 ? `<div class="routeinfo" id="stat-${dnum}">🚗 počítám trasu…</div>` : ''}
       ${items.map(p => `
@@ -347,7 +350,11 @@ Object.entries(DAYS).forEach(([dnum, d]) => {
           <span class="t">${p.name}<small>${p.drive}</small></span>
         </div>`).join('')}
     </div>`;
-  card.querySelector('.day-head').addEventListener('click', () => card.classList.toggle('open'));
+  card.querySelector('.day-head').addEventListener('click', () => {
+    const wasOpen = card.classList.contains('open');
+    daysEl.querySelectorAll('.day-card').forEach(c => c.classList.remove('open'));
+    if (!wasOpen) card.classList.add('open');
+  });
   daysEl.appendChild(card);
 });
 window.toggleSidebar = open => {
