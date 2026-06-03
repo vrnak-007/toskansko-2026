@@ -1,1 +1,359 @@
-<!-- placeholder, bude nahrazeno mapou -->
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toskánsko 2026 — romantický itinerář (27. 6. – 1. 7.)</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; }
+  #app { display: flex; height: 100%; }
+  #sidebar {
+    width: 390px; min-width: 320px; height: 100%; overflow-y: auto;
+    background: #faf6ef; border-right: 1px solid #e2d8c3; padding: 18px 16px 30px;
+  }
+  #map { flex: 1; height: 100%; }
+  h1 { font-family: Georgia, 'Times New Roman', serif; font-size: 21px; color: #7a3b2e; margin-bottom: 2px; }
+  .sub { font-size: 12.5px; color: #8a7a62; margin-bottom: 14px; }
+  .day-card { background: #fff; border: 1px solid #e8dfcd; border-radius: 10px; margin-bottom: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.05); }
+  .day-head { padding: 10px 12px; color: #fff; font-weight: 600; font-size: 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+  .day-head small { font-weight: 400; opacity: .9; }
+  .day-body { padding: 8px 12px 12px; display: none; }
+  .day-card.open .day-body { display: block; }
+  .stop { padding: 7px 8px; border-radius: 7px; cursor: pointer; display: flex; gap: 9px; align-items: baseline; }
+  .stop:hover { background: #f4ecdd; }
+  .stop .n { font-weight: 700; font-size: 12px; color: #fff; border-radius: 50%; min-width: 20px; height: 20px; line-height: 20px; text-align: center; align-self: center; }
+  .stop .t { font-size: 13.5px; color: #41382c; }
+  .stop .t small { display: block; color: #93846a; font-size: 11.5px; }
+  .routeinfo { font-size: 12px; color: #7a6f5c; padding: 6px 8px 0; font-style: italic; }
+  .tips { background: #fff; border: 1px solid #e8dfcd; border-radius: 10px; padding: 12px; font-size: 12.5px; color: #4d4334; line-height: 1.55; margin-top: 6px; }
+  .tips h3 { font-family: Georgia, serif; color: #7a3b2e; font-size: 14.5px; margin-bottom: 6px; }
+  .tips ul { padding-left: 16px; }
+  .tips li { margin-bottom: 5px; }
+  .heart { color: #c84b6b; }
+  /* popup */
+  .leaflet-popup-content { margin: 10px 12px 12px; width: 320px !important; }
+  .pp h2 { font-family: Georgia, serif; font-size: 17px; color: #6e3526; margin: 7px 0 2px; }
+  .pp .badge { display: inline-block; font-size: 10.5px; color: #fff; padding: 2px 8px; border-radius: 10px; margin-right: 5px; }
+  .pp .drive { font-size: 11.5px; color: #8b7c63; }
+  .pp .mainimg { width: 100%; height: 185px; object-fit: cover; border-radius: 8px; display: block; background: #eee; }
+  .pp .thumbs { display: flex; gap: 5px; margin-top: 5px; }
+  .pp .thumbs img { width: 32%; height: 52px; object-fit: cover; border-radius: 5px; cursor: pointer; opacity: .75; border: 2px solid transparent; }
+  .pp .thumbs img.act { opacity: 1; border-color: #c84b6b; }
+  .pp p { font-size: 12.5px; color: #45413a; line-height: 1.5; margin-top: 7px; }
+  .pp .fact { background: #fdf3e4; border-left: 3px solid #d9a441; padding: 7px 9px; font-size: 12px; color: #5d4a26; margin-top: 8px; border-radius: 0 6px 6px 0; line-height: 1.45; }
+  .legend { background: #fff; padding: 9px 12px; border-radius: 9px; box-shadow: 0 1px 5px rgba(0,0,0,.25); font-size: 12px; line-height: 1.9; }
+  .legend i { display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin-right: 6px; }
+  @media (max-width: 760px) {
+    #app { flex-direction: column; }
+    #sidebar { width: 100%; height: 45%; }
+    #map { height: 55%; }
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="sidebar">
+    <h1>Toskánsko ve dvou ❤</h1>
+    <div class="sub">27. 6. – 1. 7. 2026 · Borgo Il Poggiaccio (Sovicille) → LunArt (Florencie)<br>Klikněte na den nebo zastávku — mapa vás tam zaveze.</div>
+    <div id="days"></div>
+    <div class="tips">
+      <h3>Praktické tipy <span class="heart">♥</span></h3>
+      <ul>
+        <li><b>Palio di Siena:</b> 2. 7. se běží Palio di Provenzano. Během vašeho pobytu probíhají v Sieně na Piazza del Campo <b>zkušební jízdy (prove) zdarma</b> – 29. 6. večer (~19:45) a 30. 6. ráno (~9:00) i večer. Jedinečná atmosféra kontrad, kterou většina turistů nezažije.</li>
+        <li><b>Florencie – pozor na ZTL:</b> centrum je zóna se zákazem vjezdu (kamery, pokuty ~100 €). LunArt je v Oltrarnu uvnitř ZTL – auto nechte v garáži (např. Garage Lungarno della Zecca) nebo zdarma u Piazzale Michelangelo a do hotelu dojděte/dojeďte autobusem. Ověřte si u hosta možnost registrace SPZ.</li>
+        <li><b>Parkování Siena:</b> parkoviště Santa Caterina / San Francesco (cca 2 €/h) s eskalátory do centra. Nevjíždějte do ZTL.</li>
+        <li><b>Levná romantika:</b> západ slunce u San Galgana, koupání nohou v termálním kanálu v Bagno Vignoni (Parco dei Mulini, zdarma), Via dell'Amore a Via del Bacio v Pienze, piknik mezi cypřiši, večerní Piazzale Michelangelo – vše zdarma.</li>
+        <li><b>Vstupy (orientačně, ověřte):</b> opatství San Galgano ~5 €, Torre del Mangia ~10 €, katedrála Siena (OPA SI pass) ~14–16 €, věž Torre Grossa v San Gimignanu ~9 €, kopule Florencie (Brunelleschi pass) ~30 € – nutná rezervace, Uffizi ~25 € (rezervujte předem!). Boboli ~10 €.</li>
+        <li><b>Jídlo:</b> oběd formou „panini + pecorino + víno" z místních obchodů ušetří; večeře v agriturismu u Sovicille je levnější než v Sieně. V Montepulcianu ochutnejte Vino Nobile ve sklepích zdarma/za pár eur.</li>
+        <li><b>Neděle 28. 6.:</b> katedrála v Sieně otevírá pro turisty až odpoledne (~13:30) – dopoledne věnujte Piazza del Campo a uličkám, Duomo navštivte po obědě.</li>
+        <li>Trasy v mapě jsou skutečné silniční trasy (počítá je router); časy jízdy jsou orientační, bez zastávek.</li>
+      </ul>
+    </div>
+  </div>
+  <div id="map"></div>
+</div>
+
+<script>
+// ---------- data ----------
+const W = p => { const f = p.split('/').pop(); return 'https://upload.wikimedia.org/wikipedia/commons/thumb/' + p + '/960px-' + f; };
+
+const DAYS = {
+  1: { color: '#c84b6b', label: 'Sobota 27. 6.', desc: 'Příjezd + podvečer San Galgano' },
+  2: { color: '#7b4fa6', label: 'Neděle 28. 6.', desc: 'Celý den Siena' },
+  3: { color: '#d9762b', label: 'Pondělí 29. 6.', desc: 'Okruh Val d’Orcia (UNESCO)' },
+  4: { color: '#3e8e5a', label: 'Úterý 30. 6.', desc: 'Monteriggioni → San Gimignano → Florencie' },
+  5: { color: '#2e6fb5', label: 'Středa 1. 7.', desc: 'Florencie pěšky, odjezd' },
+  6: { color: '#8a8a8a', label: 'Další tipy', desc: 'Pokud zbyde čas / chuť' },
+  7: { color: '#0f9b8e', label: 'ALT okruh — neděle 28. 6.', desc: 'Crete Senesi: měsíční krajina a výhledy (blíž, bez davů)' },
+  8: { color: '#7a5230', label: 'ALT okruh — pondělí 29. 6.', desc: 'Mini Chianti: vinice, hradby, degustace (kratší jízdy)' }
+};
+
+const POIS = [
+  { id:'base1', day:1, num:'A', name:'Borgo Il Poggiaccio ★ vaše základna', ll:[43.26979,11.15024],
+    drive:'Ubytování 27.–30. 6. (3 noci), Sovicille u Sieny',
+    desc:'Kamenné toskánské borgo v tichu krajiny Montagnola Senese, cca 25 minut od Sieny. Ideální výchozí bod: večer klid, cikády a víno na terase.',
+    fact:'Sovicille leží v kraji, odkud se těžil mramor pro sienskou katedrálu. V okolí je síť značených cest na romantické procházky mezi duby a olivami.',
+    photos:[W('8/8a/SovicillePanorama.JPG'),W('7/7d/SovicilleCityCenterTownHallChurchSanLorenzo1WWarMonument.JPG'),W('f/f3/SovicillePorta.JPG')] },
+
+  { id:'galgano', day:1, num:'1', name:'Opatství San Galgano & Montesiepi', ll:[43.15172,11.15457],
+    drive:'~30 min / 28 km od základny — ideální na západ slunce',
+    desc:'Gotická katedrála bez střechy — jedno z nejmagičtějších míst Toskánska. Nad ní kruhová kaple Montesiepi s pravým „mečem v kameni“, který do skály vrazil rytíř Galgano roku 1180.',
+    fact:'Meč v kameni je o století starší než legendy o Artušovi a podle analýz je skutečně z 12. století. Natáčel se tu Anglický pacient. Večer, když opatstvím prochází zapadající slunce, tu bývá téměř prázdno.',
+    photos:['https://upload.wikimedia.org/wikipedia/commons/d/d8/Abbazia_di_San_Galgano_4.jpg',W('6/68/Abbazia_di_San_Galgano_5.jpg'),W('e/e4/Abbazia_di_San_Galgano_-_guardando_in_alto.jpg'),W('a/a4/San_Galgano_Spada_nella_roccia.JPG')] },
+
+  { id:'siena', day:2, num:'2', name:'Siena — Piazza del Campo & Duomo', ll:[43.31810,11.33170],
+    drive:'~25 min / 15 km od základny · parkujte Santa Caterina',
+    desc:'Středověké město UNESCO s mušlovitým náměstím Piazza del Campo, radniční věží Torre del Mangia (88 m, 400 schodů, výhled za odměnu) a černobílou katedrálou s podlahou z 56 mramorových intarzií.',
+    fact:'2. 7. se běží slavné Palio — během vašeho pobytu (29.–30. 6.) probíhají na Campu zkušební jízdy zdarma a město žije rituály 17 kontrad. Vyhlídka Facciatone na nedostavěné „nové katedrále“ nabízí nejhezčí pohled na Campo.',
+    photos:[W('7/73/PiazzadelCampoSiena.jpg'),W('0/0b/Torre_del_Mangia_in_Siena%2C_Italy.jpg'),W('7/75/The_Piazza_Del_Campo%2C_Siena%2C_Italy.jpg'),W('b/be/Duomo_Siena%2C_window_over_main_portal.jpg')] },
+
+  { id:'cipressi', day:3, num:'3', name:'Cypřiše San Quirico (foto stop)', ll:[43.0410,11.5760],
+    drive:'~55 min od základny, u silnice SR2 Cassia',
+    desc:'Ikonický kruh cypřišů uprostřed zvlněných polí — nejfotografovanější strom-skupina Itálie. Zastávka na 15 minut, fotka, polibek, jedeme dál.',
+    fact:'Tyto cypřiše najdete na polovině pohlednic z Toskánska. Nejhezčí světlo je brzy ráno nebo podvečer, kdy obilí zlátne.',
+    photos:[W('8/80/Bosco_cipressi_Val_d%27Orcia_Cassia.jpg'),W('7/7c/Val_d%27Orcia_in_June.jpg'),W('b/b3/I_cipressi_della_Val_D%27Orcia.jpg')] },
+
+  { id:'vignoni', day:3, num:'4', name:'Bagno Vignoni — náměstí z termální vody', ll:[43.02790,11.61870],
+    drive:'~1 h 05 min / 60 km od základny',
+    desc:'Jediná vesnice na světě, kde místo náměstí najdete renesanční termální bazén, z něhož stoupá pára. Pod vesnicí v Parco dei Mulini teče horká voda volně — nohy si smočíte zdarma.',
+    fact:'Koupala se tu už sv. Kateřina Sienská i Lorenzo Magnifico. Andrej Tarkovskij zde natočil Nostalgii. Romantická káva u bazénu patří k nejhezčím v Toskánsku.',
+    photos:[W('d/db/Bagno_Vignoni.jpg'),W('4/44/Bagno_Vignoni_Piazza_delle_Sorgenti_01.jpg'),W('d/dc/Bagno_Vignoni_%285%29.jpg')] },
+
+  { id:'sanquirico', day:3, num:'5', name:'San Quirico d’Orcia & kaple Vitaleta', ll:[43.05740,11.60440],
+    drive:'10 min od Bagno Vignoni',
+    desc:'Půvabné městečko na poutní cestě Via Francigena s románskou kolegiátou a renesanční zahradou Horti Leonini (vstup zdarma). Kousek odtud osamělá kaplička Madonna di Vitaleta mezi cypřiši — symbol Val d’Orcia.',
+    fact:'Kaple Vitaleta je nejfotografovanější kostelík Itálie; nejlepší pohled je z vyhlídky u silnice SP146 směr Pienza. Podle legendy se v ní zjevila Panna Maria pastýřce.',
+    photos:[W('1/1a/Collegiata_san_quirico_d%27orcia.jpg'),W('2/28/Cappella_della_Madonna_di_Vitaleta_-_Konrad_Marx_2014_%28Unsplash%29.jpg'),W('2/2e/Cappella_della_Madonna_di_Vitaleta_via_lattea_milky_way.jpg')] },
+
+  { id:'pienza', day:3, num:'6', name:'Pienza — město lásky a pecorina', ll:[43.07690,11.67890],
+    drive:'15 min od San Quirica',
+    desc:'„Ideální renesanční město“ papeže Pia II. (UNESCO). Miniaturní centrum s dokonalým náměstím, výhledy z hradeb na celé Val d’Orcia a vůně zrajícího ovčího sýra pecorino z každých dveří.',
+    fact:'Uličky u hradeb se opravdu jmenují Via dell’Amore (ulice Lásky) a Via del Bacio (ulice Polibku) — povinná zastávka pro zamilované. Pecorino di Pienza kupujte přímo od výrobců, krájí na ochutnávku.',
+    photos:[W('a/ab/Pienza_Piazza_Pio_II.JPG'),W('3/32/Pienza_-_Piazza_Pio_II.jpg'),W('5/53/1996_wurde_Pienza_Weltkulturerbe._07.jpg')] },
+
+  { id:'montepulciano', day:3, num:'7', name:'Montepulciano — víno a výhledy', ll:[43.09330,11.78110],
+    drive:'20 min od Pienzy · zpět na základnu ~1 h 25 min',
+    desc:'Renesanční město na vysokém kopci, domov vína Vino Nobile. Piazza Grande s palácem a studnou, historické vinné sklepy vytesané hluboko do skály (Cantina de’ Ricci, Contucci) — prohlídky většinou zdarma.',
+    fact:'Na Piazza Grande se natáčela sága Twilight: New Moon. Ve sklepě Cantina Ercolani sestoupíte do etruských chodeb pod městem. Aperitivo s výhledem na Val di Chiana je povinnost.',
+    photos:[W('6/63/Piazza_Grande_of_Montepulciano.jpg'),W('2/25/Montepulciano_Piazza_Grande.jpg'),W('4/4f/Piazza_Grande%2C_Montepulciano%2C_Siena%2C_Toscana_-_panoramio.jpg')] },
+
+  { id:'monteriggioni', day:4, num:'8', name:'Monteriggioni — hrad z Božské komedie', ll:[43.38995,11.22310],
+    drive:'~30 min od základny (po cestě do Florencie)',
+    desc:'Dokonale zachovalý hradební prstenec se 14 věžemi na kopci nad Via Francigena. Uvnitř jedno náměstíčko, kostel a pár kaváren — prohlídka za hodinu, zážitek na celý život.',
+    fact:'Dante v Pekle přirovnává obry stojící kolem propasti právě k věžím Monteriggioni. Hradby znáte i ze hry Assassin’s Creed II.',
+    photos:[W('f/f6/Monteriggioni_dall%27alto.jpg'),W('2/2f/Monteriggioni_0f9e45cd60_o.jpg'),W('0/00/Monteriggioni_886c03ae15_o.jpg')] },
+
+  { id:'sangimignano', day:4, num:'9', name:'San Gimignano — středověký Manhattan', ll:[43.46790,11.04350],
+    drive:'~35 min od Monteriggioni',
+    desc:'Město věží (UNESCO) — ze 72 středověkých „mrakodrapů“ jich stojí 14. Věž Torre Grossa nabízí závratný výhled, náměstí Piazza della Cisterna patří k nejkrásnějším v Itálii.',
+    fact:'V Gelaterii Dondoli na náměstí dělá zmrzlinu několikanásobný mistr světa — fronta stojí za to (šafránová podle místní tradice!). Bílé víno Vernaccia di San Gimignano chválil už Dante.',
+    photos:[W('5/5e/Torre_Rognosa_in_San_Gimignano_Italy.jpg'),W('5/57/San_Gimignano_%283%29.jpg'),W('c/c9/San_Gimignano_Towers_from_the_Square.jpg')] },
+
+  { id:'certaldo', day:4, num:'10', name:'Certaldo Alto — rodiště Boccaccia', ll:[43.54750,11.04130],
+    drive:'~20 min od San Gimignana (volitelná zastávka)',
+    desc:'Cihlově červené středověké městečko na kopci, kam jezdí lanovka. Rodiště Giovanniho Boccaccia, autora Dekameronu. Téměř bez turistů — klidná káva s výhledem na věže San Gimignana.',
+    fact:'Z hradu Palazzo Pretorio je vidět až k San Gimignanu; průčelí zdobí desítky erbů florentských správců. Ideální klidová pauza před ruchem Florencie.',
+    photos:[W('7/7c/Certaldo-panorama_da_Certaldo_Alto1.jpg'),W('d/dd/Certaldo-panorama_da_Certaldo_Alto2.jpg'),W('5/59/Certaldo_panorama_sasso.jpg')] },
+
+  { id:'base2', day:4, num:'B', name:'LunArt ★ nocleh ve Florencii', ll:[43.76693,11.25376],
+    drive:'Ubytování 30. 6. – 1. 7. · Vicolo del Canneto 2, Oltrarno',
+    desc:'Nocleh pár kroků od Ponte Vecchio na klidnějším „levém břehu“ Arna — čtvrť Oltrarno s řemeslnými dílnami, trattoriemi a večerním životem na Piazza Santo Spirito.',
+    fact:'Pozor: adresa je uvnitř zóny ZTL (zákaz vjezdu, kamery). Auto nechte v garáži u Lungarna nebo zdarma u Piazzale Michelangelo. Večer dojděte k Ponte Vecchio — po setmění je most kouzelný a poloprázdný.',
+    photos:[W('2/25/14_-_Basilica_di_Santo_Spirito%2C_Firenze.jpg'),W('4/41/Firenze_-_Florence_-_Lungarno_della_Zecca_Vecchia_-_View_SSW.jpg'),W('c/c6/Firenze_-_Florence_-_Piazzale_degli_Uffizi_-_View_South_on_Lungarno_degli_Archibugieri%2C_River_Arno_%26_Lungarno_Torrigiani.jpg')] },
+
+  { id:'piazzale', day:4, num:'11', name:'Piazzale Michelangelo — západ slunce', ll:[43.76250,11.26500],
+    drive:'Večer 30. 6. · 20 min pěšky od hotelu (do kopce)',
+    desc:'Nejslavnější vyhlídka na Florencii: celé město, kopule, věže i Ponte Vecchio jako na dlani. Při západu slunce hraje místní muzikant a celá terasa tleská slunci — klišé, které musíte zažít.',
+    fact:'Vstup zdarma a parkování bývá zdarma — ideální místo, kde nechat auto mimo ZTL. O pár kroků výš je románský kostel San Miniato al Monte s gregoriánskými nešporami mnichů (~18:30).',
+    photos:[W('a/a2/Panorama_di_Firenze_centro_visto_dal_Piazzale_Michelangelo.jpg'),W('9/99/Vista_de_Florencia_desde_Piazzale_Michelangelo%2C_Italia%2C_2022-09-18%2C_DD_212-214_HDR.jpg'),W('4/41/Vista_de_Florencia_desde_Piazzale_Michelangelo%2C_Italia%2C_2022-09-18%2C_DD_218-220_HDR.jpg')] },
+
+  { id:'duomo', day:5, num:'12', name:'Florencie — Duomo Santa Maria del Fiore', ll:[43.77310,11.25600],
+    drive:'1. 7. dopoledne · 15 min pěšky od hotelu',
+    desc:'Katedrála s Brunelleschiho kopulí — největší zděnou kopulí světa — Giottovou zvonicí a baptisteriem se zlatou Rajskou bránou. Vstup do katedrály je zdarma (fronta), výstupy na kopuli/zvonici nutno rezervovat.',
+    fact:'Kopule se stavěla bez lešení a dodnes přesně neví, jak to Brunelleschi dokázal. Na vrchol vede 463 schodů — výhled ve dvou je nezapomenutelný, ale vstupenky mizí týdny dopředu.',
+    photos:[W('6/6c/Fa%C3%A7ade_cath%C3%A9drale_Florence.jpg'),W('a/a0/Dome_of_Cattedrale_di_Santa_Maria_del_Fiore_%28Florence%29.jpg'),W('6/69/CampanileGiotto-01.jpg'),W('7/77/Florence_Duomo_from_Michelangelo_hill.jpg')] },
+
+  { id:'pontevecchio', day:5, num:'13', name:'Ponte Vecchio & Uffizi', ll:[43.76800,11.25320],
+    drive:'2 min pěšky od hotelu',
+    desc:'Nejstarší florentský most (1345) obrostlý zlatnickými krámky; nad nimi tajná chodba Medicejských. Hned vedle galerie Uffizi s Botticelliho Zrozením Venuše — vstupenky rezervujte předem online.',
+    fact:'Ponte Vecchio jako jediný most přežil 2. světovou válku — Hitler jej prý odmítl zničit. Zlatníci tu sídlí od roku 1593, kdy vyhnali řezníky kvůli zápachu.',
+    photos:[W('2/22/Ponte_Vecchio_at_dusk_1.JPG'),W('1/1d/Fireworks_over_Ponte_Vecchio.JPG'),W('9/99/Florence_-_Uffizi_from_Arno.jpg')] },
+
+  { id:'boboli', day:5, num:'14', name:'Palazzo Pitti & zahrady Boboli', ll:[43.76480,11.25000],
+    drive:'5 min pěšky od hotelu',
+    desc:'Renesanční palác Medicejských a za ním rozlehlé italské zahrady s fontánami, amfiteátrem a výhledy na město — vzor pro Versailles. Perfektní klidné dopoledne před odjezdem.',
+    fact:'V zahradách je „Bacchova fontána“ — dvorní trpaslík Cosima I. na želvě. Z terasy Kavalírské zahrady je nejhezčí málo známý výhled na Florencii.',
+    photos:[W('5/5c/Boboli_Gardens_towards_Pitti_Palace%2C_Firenze%2C_1999.jpg'),W('a/a7/Florence_-_Boboli_Gardens_-_20220610115047.jpg'),W('f/fe/Jard%C3%ADn_de_B%C3%B3boli%2C_Florencia%2C_Italia%2C_2022-09-19%2C_DD_12.jpg')] },
+
+  { id:'montalcino', day:6, num:'C', name:'Montalcino (alternativa k 29. 6.)', ll:[43.05610,11.48900],
+    drive:'~55 min od základny — lze vložit na zpáteční cestě z Val d’Orcia',
+    desc:'Pevnostní městečko nad mořem vinic, domov slavného vína Brunello di Montalcino. Degustace v Enotece la Fortezza přímo v hradbách pevnosti ze 14. století.',
+    fact:'Brunello bylo první italské víno s nejvyšší klasifikací DOCG. Z hradeb pevnosti dohlédnete za jasného dne až k hoře Monte Amiata.',
+    photos:[W('0/00/Fortezza-Montalcino-SI-IT.jpg'),W('7/79/Fortezza_di_Montalcino_%28Siena%29.jpg'),W('f/fe/Castello_di_Montalcino_Siena.jpg')] },
+
+  { id:'greve', day:6, num:'D', name:'Greve in Chianti (alternativní trasa 30. 6.)', ll:[43.58380,11.31580],
+    drive:'Alternativa: do Florencie vinnou cestou Chiantigiana (SR222), +30 min',
+    desc:'Srdce vinařské oblasti Chianti Classico s trojúhelníkovým podloubím náměstí Piazza Matteotti. Cesta SR222 přes Castellinu a Panzano patří k nejkrásnějším silnicím Itálie.',
+    fact:'Na náměstí stojí socha Giovanniho da Verrazzano — rodáka, který objevil zátoku dnešního New Yorku. V Antica Macelleria Falorni krájejí salumi už od roku 1729.',
+    photos:[W('0/0a/Greve_in_Chianti_-_Piazza_Giacomo_Matteotti-9293.jpg'),W('a/ac/Greve%2C_piazza_01.JPG'),W('4/49/Greve_in_Chianti_-_Piazza_Giacomo_Matteotti_01.JPG')] },
+
+  { id:'moliveto', day:7, num:'E', name:'Opatství Monte Oliveto Maggiore', ll:[43.17590,11.54500],
+    drive:'~50 min od základny (přes Buonconvento)',
+    desc:'Benediktinské opatství z červených cihel ukryté v cypřišovém lese nad srázy Crete Senesi. Velký ambit zdobí slavný cyklus fresek o životě sv. Benedikta od Luky Signorelliho a Sodomy. Vstup za dobrovolný příspěvek.',
+    fact:'Mniši zde žijí dodnes — v podvečer (~18:15) zpívají gregoriánské nešpory, kterých se můžete tiše zúčastnit. V klášterním obchůdku prodávají vlastní likéry, med a olivový olej.',
+    photos:[W('c/c4/Monte_Oliveto_Maggiore_%28orci%29.jpg'),W('8/8f/Monte_oliveto_maggiore%2C_abbazia_01.JPG'),W('6/69/Monte_oliveto_maggiore%2C_lapide_01.JPG')] },
+
+  { id:'asciano', day:7, num:'F', name:'Asciano — brána do Crete Senesi', ll:[43.23260,11.56020],
+    drive:'15 min od Monte Oliveto',
+    desc:'Autentické městečko, kam turisté skoro nejezdí: korzo Corso Matteotti, románská kolegiáta a kavárny, kde sedí jen místní. Ideální zastávka na oběd nebo espresso uprostřed „toskánské pouště“.',
+    fact:'Šedé hliněné kopce v okolí (biancane a calanchi) vznikly na dně dávného moře — krajina připomíná měsíc, a proto se jí říká toskánská poušť. Nejkrásnější světlo je ráno a v podvečer.',
+    photos:[W('6/67/AscianoPanorama2.jpg'),W('1/10/AscianoPanorama4.jpg'),'https://upload.wikimedia.org/wikipedia/commons/4/4d/Asciano_-_cinta_muraria.jpg'] },
+
+  { id:'cretevista', day:7, num:'G', name:'Vyhlídky Crete Senesi & Site Transitoire', ll:[43.29060,11.42480],
+    drive:'zpáteční cesta po SP438 „Lauretana“ — průběžné foto zastávky',
+    desc:'Silnice SP438 mezi Ascianem a Sienou patří k nejfotogeničtějším v Itálii: vlnící se pole, osamělé cypřiše a statky na hřebenech. U vesničky Leonina stojí kamenná socha Site Transitoire s „oknem“ rámujícím krajinu.',
+    fact:'Site Transitoire sochaře Jeana-Paula Philippa je postavena tak, že kolem letního slunovratu (tedy přesně ve vašem termínu!) zapadá slunce přímo do jejího kamenného okna. Západ slunce ve dvou, zcela zdarma.',
+    photos:[W('a/a0/Sunrise_in_Crete_dell%27Orcia.jpg'),W('4/49/Crete-senesi.jpg'),W('c/c1/Crete_senesi_-_Asciano_%28Siena%29.jpg')] },
+
+  { id:'castellina', day:8, num:'H', name:'Castellina in Chianti', ll:[43.46900,11.28600],
+    drive:'~40 min od základny',
+    desc:'Středověké městečko na hřebeni mezi vinicemi s mohutnou pevností (rocca) a unikátní krytou uličkou Via delle Volte, vestavěnou přímo do hradeb — okny v klenbě prosvítá krajina Chianti.',
+    fact:'Via delle Volte bývala obrannou chodbou; večer ji osvětlují lucerny a patří k nejromantičtějším místům celého Chianti. Z věže pevnosti je výhled od Sieny až k Apeninám.',
+    photos:[W('5/59/Castellina_in_Chianti.jpg'),W('4/4a/CastellinaInChiantiPanoramaNord.JPG'),W('d/d8/CastellinaInChiantiPanoramaWest.JPG')] },
+
+  { id:'radda', day:8, num:'I', name:'Radda in Chianti', ll:[43.48550,11.37440],
+    drive:'15 min od Castelliny po vyhlídkové silnici',
+    desc:'Kamenné městečko stočené do prstence na vrcholu kopce, obklopené ze všech stran vinicemi. Palazzo del Podestà s desítkami kamenných erbů, ochoz hradeb s výhledy a vinné bary přímo na náměstí.',
+    fact:'Radda byla od roku 1384 sídlem Ligy Chianti — odtud pochází symbol černého kohouta (Gallo Nero), který dodnes najdete na každé lahvi Chianti Classico.',
+    photos:[W('2/28/Radda_pano.jpg'),W('5/56/Panorama_Radda_in_Chianti_-_panoramio.jpg'),W('e/ed/Radda_in_Chianti_-_Fontana_datata_1926.jpg')] },
+
+  { id:'volpaia', day:8, num:'J', name:'Volpaia — vinařská vesnička', ll:[43.51010,11.38010],
+    drive:'10 min od Raddy úzkou silničkou mezi vinicemi',
+    desc:'Miniaturní opevněná víska z 11. století, která celá patří jednomu rodinnému vinařství. Sklepy, fermentační sály a sudy jsou ukryté přímo ve středověkých domech a kostelíku — vesnice je vlastně jedno velké živé vinařství.',
+    fact:'Domy ve Volpaii propojuje podzemní „vinovod“ (vinodotto) — potrubí, kterým teče víno mezi sklepy. Degustace s výhledem na vinice z terasy místní osterie je dokonalá tečka okruhu.',
+    photos:[W('7/71/Castello_di_Volpaia_01.jpg'),W('6/69/Volpaia_Fermentation.jpg'),W('7/73/Volpaia_aging.jpg')] }
+];
+
+// ---------- map ----------
+const map = L.map('map').setView([43.42, 11.35], 9);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 19, attribution: '&copy; OpenStreetMap | Fotky: Wikimedia Commons'
+}).addTo(map);
+
+const markers = {};
+function popupHtml(p) {
+  const d = DAYS[p.day];
+  const thumbs = p.photos.map((u,i) =>
+    `<img src="${u}" class="${i===0?'act':''}" onclick="swapPhoto('${p.id}',${i},this)" loading="lazy">`).join('');
+  return `<div class="pp" id="pp-${p.id}">
+    <img class="mainimg" id="main-${p.id}" src="${p.photos[0]}" loading="lazy">
+    <div class="thumbs">${thumbs}</div>
+    <h2>${p.name}</h2>
+    <span class="badge" style="background:${d.color}">${d.label}</span>
+    <span class="drive">${p.drive}</span>
+    <p>${p.desc}</p>
+    <div class="fact">💡 ${p.fact}</div>
+  </div>`;
+}
+window.swapPhoto = (id, i, el) => {
+  const p = POIS.find(x => x.id === id);
+  document.getElementById('main-' + id).src = p.photos[i];
+  el.parentNode.querySelectorAll('img').forEach(t => t.classList.remove('act'));
+  el.classList.add('act');
+};
+
+POIS.forEach(p => {
+  const d = DAYS[p.day];
+  const icon = L.divIcon({
+    className: '',
+    html: `<div style="background:${d.color};color:#fff;font:700 12px/24px Arial;width:26px;height:26px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.4)"><div style="transform:rotate(45deg);text-align:center">${p.num}</div></div>`,
+    iconSize: [26, 26], iconAnchor: [13, 24], popupAnchor: [0, -22]
+  });
+  markers[p.id] = L.marker(p.ll, { icon }).addTo(map).bindPopup(popupHtml(p), { maxWidth: 340 });
+});
+
+// ---------- routes (real driving routes via OSRM, fallback = dashed line) ----------
+const ROUTES = [
+  { day:1, ids:['base1','galgano'] },
+  { day:2, ids:['base1','siena'] },
+  { day:3, ids:['base1','cipressi','vignoni','sanquirico','pienza','montepulciano'] },
+  { day:4, ids:['base1','monteriggioni','sangimignano','certaldo','base2'] },
+  { day:5, ids:['base2','pontevecchio','duomo','boboli','piazzale'], walk:true },
+  { day:7, ids:['base1','moliveto','asciano','cretevista','base1'], alt:true },
+  { day:8, ids:['base1','castellina','radda','volpaia','base1'], alt:true }
+];
+const routeStats = {};
+async function drawRoute(r) {
+  const pts = r.ids.map(id => POIS.find(p => p.id === id).ll);
+  const col = DAYS[r.day].color;
+  if (r.walk) {
+    L.polyline(pts, { color: col, weight: 3, dashArray: '2 7', opacity: .9 }).addTo(map);
+    setStat(r.day, 'pěší okruh ~5 km');
+    return;
+  }
+  try {
+    const coords = pts.map(ll => ll[1] + ',' + ll[0]).join(';');
+    const res = await fetch('https://router.project-osrm.org/route/v1/driving/' + coords + '?overview=full&geometries=geojson');
+    const j = await res.json();
+    if (j.code === 'Ok' && j.routes && j.routes[0]) {
+      const line = j.routes[0].geometry.coordinates.map(c => [c[1], c[0]]);
+      L.polyline(line, { color: col, weight: 4, opacity: .75, dashArray: r.alt ? '10 7' : null }).addTo(map);
+      const km = Math.round(j.routes[0].distance / 1000);
+      const min = Math.round(j.routes[0].duration / 60);
+      setStat(r.day, `${km} km · ~${Math.floor(min/60) ? Math.floor(min/60) + ' h ' : ''}${min % 60} min jízdy ${r.alt ? '(celý okruh, alternativa — čárkovaně)' : '(bez zastávek, jedním směrem)'}`);
+      return;
+    }
+    throw new Error('no route');
+  } catch (e) {
+    L.polyline(pts, { color: col, weight: 3, dashArray: '6 8', opacity: .7 }).addTo(map);
+    setStat(r.day, 'orientační spojnice (router nedostupný)');
+  }
+}
+function setStat(day, txt) {
+  const el = document.getElementById('stat-' + day);
+  if (el) el.textContent = '🚗 ' + txt;
+}
+
+// ---------- sidebar ----------
+const daysEl = document.getElementById('days');
+Object.entries(DAYS).forEach(([dnum, d]) => {
+  const items = POIS.filter(p => p.day == dnum);
+  const card = document.createElement('div');
+  card.className = 'day-card' + (dnum == 1 ? ' open' : '');
+  card.innerHTML = `
+    <div class="day-head" style="background:${d.color}"><span>${d.label}</span><small>${d.desc}</small></div>
+    <div class="day-body">
+      ${dnum != 6 ? `<div class="routeinfo" id="stat-${dnum}">🚗 počítám trasu…</div>` : ''}
+      ${items.map(p => `
+        <div class="stop" onclick="goTo('${p.id}')">
+          <span class="n" style="background:${d.color}">${p.num}</span>
+          <span class="t">${p.name}<small>${p.drive}</small></span>
+        </div>`).join('')}
+    </div>`;
+  card.querySelector('.day-head').addEventListener('click', () => card.classList.toggle('open'));
+  daysEl.appendChild(card);
+});
+window.goTo = id => {
+  const p = POIS.find(x => x.id === id);
+  map.flyTo(p.ll, 13, { duration: .8 });
+  setTimeout(() => markers[id].openPopup(), 850);
+};
+
+// legend
+const legend = L.control({ position: 'bottomright' });
+legend.onAdd = () => {
+  const div = L.DomUtil.create('div', 'legend');
+  div.innerHTML = '<b>Dny</b><br>' + Object.entries(DAYS).map(([n, d]) =>
+    `<i style="background:${d.color}"></i>${d.label} — ${d.desc}`).join('<br>');
+  return div;
+};
+legend.addTo(map);
+
+ROUTES.forEach(drawRoute);
+map.fitBounds(L.latLngBounds(POIS.map(p => p.ll)).pad(0.08));
+</script>
+</body>
+</html>
