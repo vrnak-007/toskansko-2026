@@ -46,10 +46,22 @@
   .pp .fact { background: #fdf3e4; border-left: 3px solid #d9a441; padding: 7px 9px; font-size: 12px; color: #5d4a26; margin-top: 8px; border-radius: 0 6px 6px 0; line-height: 1.45; }
   .legend { background: #fff; padding: 9px 12px; border-radius: 9px; box-shadow: 0 1px 5px rgba(0,0,0,.25); font-size: 12px; line-height: 1.9; }
   .legend i { display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin-right: 6px; }
+  #closeSidebar { display: none; position: fixed; top: 10px; right: 12px; z-index: 2100; background: #7a3b2e; color: #fff; border: none; border-radius: 18px; padding: 9px 16px; font-size: 14px; font-weight: 600; box-shadow: 0 2px 6px rgba(0,0,0,.3); }
+  #mobileBtns { display: none; position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 1500; }
+  #mobileBtns button { background: #c84b6b; color: #fff; border: none; border-radius: 24px; padding: 12px 20px; font-size: 15px; font-weight: 700; box-shadow: 0 3px 10px rgba(0,0,0,.35); }
   @media (max-width: 760px) {
-    #app { flex-direction: column; }
-    #sidebar { width: 100%; height: 45%; }
-    #map { height: 55%; }
+    #map { height: 100%; }
+    #sidebar {
+      position: fixed; inset: 0; width: 100%; min-width: 0; height: 100%;
+      z-index: 2000; transform: translateY(100%); transition: transform .28s ease;
+      padding-top: 54px; box-shadow: 0 -4px 18px rgba(0,0,0,.3);
+    }
+    #sidebar.open { transform: translateY(0); }
+    #sidebar.open ~ #closeSidebar, #closeSidebar.show { display: block; }
+    #mobileBtns { display: block; }
+    .leaflet-popup-content { width: min(300px, 76vw) !important; }
+    .pp .mainimg { height: 150px; }
+    .pp .thumbs img { height: 44px; }
   }
 </style>
 </head>
@@ -75,6 +87,8 @@
   </div>
   <div id="map"></div>
 </div>
+<button id="closeSidebar" onclick="toggleSidebar(false)">✕ Zavřít</button>
+<div id="mobileBtns"><button onclick="toggleSidebar(true)">🗓 Itinerář &amp; tipy</button></div>
 
 <script>
 // ---------- data ----------
@@ -336,7 +350,13 @@ Object.entries(DAYS).forEach(([dnum, d]) => {
   card.querySelector('.day-head').addEventListener('click', () => card.classList.toggle('open'));
   daysEl.appendChild(card);
 });
+window.toggleSidebar = open => {
+  document.getElementById('sidebar').classList.toggle('open', open);
+  document.getElementById('closeSidebar').classList.toggle('show', open);
+  if (!open) setTimeout(() => map.invalidateSize(), 300);
+};
 window.goTo = id => {
+  if (window.innerWidth <= 760) toggleSidebar(false);
   const p = POIS.find(x => x.id === id);
   map.flyTo(p.ll, 13, { duration: .8 });
   setTimeout(() => markers[id].openPopup(), 850);
