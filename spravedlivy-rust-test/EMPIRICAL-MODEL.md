@@ -1,254 +1,154 @@
-# Empirický a hodnotový model testu „Spravedlivý růst: kdo zaplatí účet?“
+# Empirický a hodnotový model testu „Spravedlivý růst: kdo opravdu zaplatí?“
 
-Verze 2.0, červenec 2026
+Verze 3.0, červenec 2026
 
-## 1. Co tento test je
+## 1. Účel
 
-Tento projekt je **transparentně tržně-liberální stresový test**. Není neutrální volební kalkulačkou ani odhadem skutečného státního rozpočtu.
+Test je transparentně tržně-liberální scénářový simulátor. Jeho hlavní otázka není pouze „levice, nebo pravice“, ale:
 
-Hodnotové předpoklady jsou následující:
+1. kolik ekonomické hodnoty stát povinně převezme;
+2. kolik vrátí konkrétní domácnosti v hotovosti a použitelných službách;
+3. kolik peněz zůstane pod soukromou kontrolou;
+4. kolik domácnost udrží z další práce, podnikání a investice;
+5. zda se zdanění firem, vysokých příjmů a mobilního kapitálu přenese na zaměstnance, zákazníky a investice.
 
-1. Peníze ponechané původnímu příjemci mají vyšší hodnotu osobní volby než stejně vysoký veřejný výdaj, pokud veřejný výdaj nepřinese prokazatelnou službu nebo pojistnou hodnotu.
-2. Vyšší čistá návratnost další práce, podnikání, inovace a investice je žádoucí.
-3. Soutěž, vlastnická práva, jednoduchá pravidla a osobní odpovědnost jsou preferovány před dotacemi, výjimkami a diskrétním politickým výběrem.
-4. Rozsah státu zvyšuje objem prostředků vystavený politickému rozhodování. Samotná velikost státu však neurčuje míru korupce; rozhodující jsou integrita, soutěž, transparentnost a kontrola.
-5. Veřejné statky a sociální pojištění mohou mít pozitivní produktivní hodnotu. Model proto započítává využitelné veřejné služby a zároveň náklady, které domácnost nese, pokud si chybějící služby musí koupit soukromě.
+Model je záměrně kritický k plošnému přerozdělování, vysokým mezním sazbám, dotacím, výjimkám a politicky přidělovanému kapitálu. Veřejné statky však nepovažuje automaticky za bezcenné.
 
-## 2. Co empirická literatura podporuje
+## 2. Co je empirický údaj
 
-### Účetní vztah
+Výchozí domácnost vytváří 120 000 Kč měsíčních nákladů práce a má 45 500 Kč hlavních nezbytných soukromých výdajů. Tyto dvě částky jsou didaktické předpoklady.
 
-Při nezměněných hrubých příjmech a službách vyšší povinné daně a odvody mechanicky snižují hotovost pod soukromou kontrolou. Jde o účetní identitu, nikoli o spornou kauzální hypotézu.
+Empirickými kotvami jsou zejména:
 
-### Nabídka práce, zdanitelný příjem a dávkové pasti
+- český průměrný daňový klín 41,2 % nákladů práce pro bezdětného zaměstnance na průměrné mzdě v roce 2025 podle OECD;
+- mezní klín 45,1 % používaný jako výchozí návratnost další práce;
+- literatura OECD o rozdílné distorznosti daňových základen;
+- mikroekonomická evidence, že část firemní daně se může přenést do mezd;
+- evidence behaviorální reakce vysokých příjmů a mobilního majetku na sazby.
 
-Vyšší mezní zdanění a prudké odebírání dávek snižují částku, která člověku zůstane z další vydělané koruny. Empirická reakce se liší mezi skupinami. Literatura obvykle nachází větší elasticitu vykazovaného zdanitelného příjmu u vysokých příjmů než reakci skutečných odpracovaných hodin; část reakce je daňové plánování.
+## 3. Co je normativní a scénářový předpoklad
 
-- Jon Gruber, Emmanuel Saez: *The Elasticity of Taxable Income: Evidence and Implications*, NBER Working Paper 7512.  
-  https://www.nber.org/papers/w7512
-- OECD: *Taxing Wages 2026*.  
-  https://www.oecd.org/en/publications/taxing-wages-2026_8c611f4a-en.html
+Následující převody nejsou pozorovanou statistikou České republiky:
 
-### Inovace, podnikání a umístění aktivity
+- peněžní ekvivalent veřejných služeb;
+- soukromý náklad náhrady chybějící služby;
+- převod odpovědí na daňovou kvótu, rozsah státu a mezní klín;
+- desetiletý scénář HDP;
+- přenos 20–50 % dodatečného zatížení firem a mobilního kapitálu na mzdy, ceny a investice;
+- korupční a nehospodárná expozice na 1 mil. Kč ekonomické hodnoty.
 
-Historická data ukazují, že osobní a firemní daně mohou ovlivňovat počet inovací, umístění inovátorů a investiční rozhodování. Odhady nejsou univerzální konstantou pro každou zemi a každou sazbu.
+Tyto předpoklady jsou záměrně viditelné v kódu a nesmějí být prezentovány jako přesná předpověď.
 
-- Ufuk Akcigit et al.: *Taxation and Innovation in the 20th Century*, NBER Working Paper 24982.  
-  https://www.nber.org/papers/w24982
+## 4. Hlavní rovnice
 
-### Struktura daní je důležitější než samotná daňová kvóta
-
-OECD ve svém růstovém pořadí považuje daně z příjmů právnických osob za škodlivější pro dlouhodobý růst než osobní příjmové daně, spotřební daně a zejména opakované daně z nemovitostí. Model proto nezachází se všemi daněmi stejně.
-
-- OECD: *Tax Policy Reform and Economic Growth*.  
-  https://www.oecd.org/en/publications/tax-policy-reform-and-economic-growth_9789264091085-en.html
-
-### Makroekonomické účinky daňových změn
-
-Historické americké studie identifikující exogenní změny daní nacházejí záporné dopady zvýšení daní na ekonomickou aktivitu. Velikost multiplikátoru je citlivá na období, monetární režim, počáteční sazby, typ daně a způsob identifikace.
-
-- Christina Romer, David Romer: *The Macroeconomic Effects of Tax Changes*, NBER Working Paper 13264.  
-  https://www.nber.org/papers/w13264
-- Karel Mertens, José Luis Montiel Olea: *Marginal Tax Rates and Income*, NBER Working Paper 19171.  
-  https://www.nber.org/papers/w19171
-
-## 3. Co empirická literatura nepotvrzuje
-
-Data nepodporují blanketní tvrzení, že **každé** přerozdělování nebo **každý** vyšší veřejný výdaj automaticky snižuje celkovou prosperitu. Produktivní vzdělávání, zdravotní prevence, infrastruktura, právní stát, ochrana soutěže a dobře navržené sociální pojištění mohou zvýšit pracovní účast, lidský kapitál a odolnost.
-
-IMF v mezinárodní analýze nenašel obecný robustní důkaz, že redistribuce sama o sobě poškozuje růst, s výjimkou extrémních případů. To neznamená, že redistribuce je bez nákladů; znamená to, že čistý dopad závisí na konstrukci daní, výdajů a institucí.
-
-- Jonathan Ostry, Andrew Berg, Charalambos Tsangarides: *Redistribution, Inequality, and Growth*, IMF Staff Discussion Note 14/02.  
-  https://www.imf.org/external/pubs/ft/sdn/2014/sdn1402.pdf
-
-Proto model nepoužívá rovnici „větší stát = vždy nižší HDP“. Vyšší rozsah státu vždy snižuje soukromou kontrolu nad penězi, ale může částečně nebo zcela kompenzovat tento náklad hodnotou služeb a produktivních veřejných statků.
-
-## 4. Výchozí domácnost
-
-Model používá jednu společnou domácnost, aby byly výsledky porovnatelné:
-
-- Petr, 41 let, technická údržba;
-- Jana, 37 let, úvazek 0,75;
-- dvě děti ve věku 4 a 10 let;
-- bydlení na hypotéku v Hvozdnici, okres Praha-západ;
-- celkové měsíční náklady práce obou dospělých: **120 000 Kč**;
-- hlavní nezbytné soukromé výdaje: **45 500 Kč měsíčně**.
-
-Částka 120 000 Kč je didaktický předpoklad, nikoli statistický údaj o konkrétní obci.
-
-## 5. Daňové kotvy
-
-### Průměrný klín z nákladů práce
-
-Výchozí hodnota je **41,2 %** nákladů práce. Jde o ukotvení podle OECD pro českého bezdětného zaměstnance s průměrnou mzdou v roce 2025. Rodina se dvěma dětmi může mít skutečný klín odlišný kvůli rozdělení příjmů, slevám a dávkám.
-
-Modelový klín se mění takto:
+### 4.1 Povinné odvody
 
 ```text
-grossLabourLevyRate =
-  41,2
-  + 0,13 × (přerozdělování − 50)
-  + 0,025 × (50 − administrativní jednoduchost)
-  + úprava daňového mixu
+sazba odvodů
+= 41,2 %
++ vliv preference přerozdělování
++ vliv administrativní složitosti
++ vliv zvoleného daňového mixu
 ```
 
-Rozsah je omezen na 27–55 %.
-
-### Mezní klín
-
-Výchozí mezní klín je **45,1 %**. Vyjadřuje, jaká část dodatečných nákladů práce se ztratí na daních, odvodech a konstrukci podpor.
+Výsledek je omezen na 27–55 % nákladů práce.
 
 ```text
-marginalWedge =
-  45,1
-  + 0,72 × (modelový průměrný klín − 41,2)
-  + 0,04 × (50 − administrativní jednoduchost)
-  + úprava dávkové pasti
+povinné odvody = 120 000 Kč × sazba odvodů
 ```
 
-Z dalších 10 000 Kč nákladů práce zůstane:
+### 4.2 Peníze pod vlastní kontrolou
 
 ```text
-successKeep = 10 000 × (1 − marginalWedge / 100)
+peníze pod vlastní kontrolou
+= 120 000 Kč
+− povinné odvody
++ hotovostní dávky a bonusy
+− 45 500 Kč nezbytných soukromých výdajů
 ```
 
-### Daňová kvóta
+Jde o hlavní rodinný ukazatel testu.
 
-Výchozí hodnota je 34 % HDP. Model ji posouvá podle preference přerozdělování a ekonomické svobody:
+### 4.3 Návratnost dalšího výkonu
 
 ```text
-taxQuota = 34
-  + 0,18 × (přerozdělování − 50)
-  + 0,04 × (50 − ekonomická svoboda)
+mezní klín
+= 45,1 %
++ změna odvodové sazby
++ administrativní náklady
++ dávková past nebo bonus za práci
 ```
-
-Rozsah je 26,5–44 % HDP.
-
-### Cenová daňová složka
-
-Česká základní sazba DPH je 21 % a snížená sazba 12 %. Model používá efektivní scénářovou cenovou daňovou složku ukotvenou na 15 %, protože spotřební koš kombinuje různé sazby a položky mimo DPH. Nejde o výpočet skutečné efektivní sazby konkrétní rodiny.
-
-- Evropská komise: VAT rates.  
-  https://taxation-customs.ec.europa.eu/taxation/vat/vat-directive/vat-rates_en
-
-## 6. Měsíční účet
 
 ```text
-mandatoryLevies = labourCost × grossLabourLevyRate
-cashAfterState  = labourCost − mandatoryLevies + cashSupport
-ownChoiceCash   = cashAfterState − essentialPrivateCosts
-purchasePower   = ownChoiceCash / (1 + consumptionRate)
+z dalších 10 000 Kč zůstane
+= 10 000 Kč × (1 − mezní klín)
 ```
 
-Výsledek zobrazuje odděleně:
-
-- povinné odvody;
-- hotovostní dávky a bonusy;
-- peníze pod vlastní kontrolou;
-- cenové daně ve vlastní spotřebě;
-- kupní sílu;
-- modelovou užitnou hodnotu veřejných služeb;
-- soukromé náklady na náhradu chybějících služeb.
-
-Veřejná služba není hotovost. Peněžní ekvivalent je pouze nástroj pro porovnání scénářů.
-
-## 7. Rozsah státu a pobídky
-
-Rozsah státu kombinuje přerozdělování, pokrytí programů, rodinné politiky a omezení ekonomické volby.
+### 4.4 Veřejná protihodnota
 
 ```text
-stateScope =
-  0,52 × přerozdělování
-  + 0,18 × pokrytí
-  + 0,12 × rodinný dopad
-  + 0,18 × (100 − ekonomická svoboda)
+stát vrátí
+= hotovostní dávky
++ modelová hodnota skutečně použitelných služeb
 ```
 
-Index pobídky k výkonu kombinuje ekonomickou svobodu, růstový potenciál, fiskální stabilitu, jednoduchost a soukromou návratnost další práce.
+Hodnota služeb roste s dostupností, efektivitou a kvalitou institucí. Nejde o hotovost ani právní nárok.
 
-## 8. Veřejné služby a přímá návratnost
+### 4.5 Zdanění vysokých příjmů, firem a kapitálu
+
+Test vytváří index intenzity 0–100 z odpovědí na daňový mix, zdanění firem, přerozdělování a ekonomickou svobodu.
+
+Při intenzitě nad výchozí hodnotou 50 se vytvoří modelový objem dodatečného zatížení mobilního kapitálu a firem. Z něj se 20–50 % přenese na běžnou domácnost:
 
 ```text
-publicServiceValue =
-  3 200
-  + 105 × stateScope
-  + 55 × (efficiency − 50)
-  + 20 × (coverage − 50)
+nepřímý dopad
+= dodatečné zatížení firem a kapitálu × 20 až 50 %
 ```
 
-Výsledek je omezen na 2 000–18 000 Kč měsíčně. Jde o scénářový ekvivalent využitelných služeb pro modelovou domácnost.
+Kanály přenosu:
+
+- pomalejší investice;
+- nižší růst produktivity a mezd;
+- vyšší ceny;
+- změna sídla, právní formy nebo vykazování příjmů;
+- omezení podnikatelské aktivity.
+
+Interval 20–50 % je citlivostní pásmo. Studie Fuest, Peichl a Siegloch na německých lokálních firemních daních odhadla přibližně poloviční podíl pracovníků na břemenu. Novější skandinávská studie majetkových daní nachází významnou migraci bohatých, ale agregátní dopady na zaměstnanost, investice a přidanou hodnotu jsou menší. Proto model nepoužívá jediný univerzální koeficient.
+
+### 4.6 Desetiletý scénář společnosti
 
 ```text
-directReturn = cashSupport + publicServiceValue
-returnRatio  = directReturn / mandatoryLevies
+změna HDP na obyvatele
+= tržní dynamika
++ produktivní veřejný kapitál
+− vysoký mezní klín
+− růst daňové kvóty bez protihodnoty
+− intenzivní zdanění mobilního kapitálu
+− extrémní podfinancování základních institucí
 ```
 
-Poměr nezahrnuje všechny veřejné funkce, například obranu, soudnictví, makroekonomickou stabilitu nebo služby čerpané jinými generacemi. Proto není „returnRatio“ účetní návratností státu jako celku.
+Model tedy systematicky penalizuje vysoké zdanění práce, firem a kapitálu, ale umožňuje pozitivní dopad kvalitního školství, infrastruktury, prevence a právního státu.
 
-## 9. Soukromá náhrada služeb
+## 5. Co nelze vydávat za empirický zákon
 
-Nízký rozsah a pokrytí veřejných systémů zvyšují částku, kterou domácnost vydá za soukromé pojištění, péči, vzdělávání, dopravu a jiné náhrady.
+Nelze poctivě tvrdit, že každé zvýšení daně nejbohatším vždy sníží příjem každého člověka. Výzkum ukazuje více mechanismů a výsledky se liší podle:
 
-```text
-privateReplacement =
-  14 500
-  − 125 × stateScope
-  − 12 × (economicFreedom − 50)
-  − 15 × (coverage − 50)
-```
+- druhu daně;
+- mobility základu;
+- možnosti vyhýbání se dani;
+- konkurence a tržní síly;
+- použití výnosu;
+- kvality institucí;
+- výchozí sazby a velikosti změny.
 
-Rozsah je 2 200–14 500 Kč měsíčně. Tento převod je normativní scénářový předpoklad, nikoli empiricky odhadnutá česká spotřební funkce.
+Test proto sděluje uživateli: „v tomto tržně-liberálním modelu se část účtu přenáší na všechny“, nikoli „věda dokázala, že každá daň bohatým ochudí všechny“.
 
-## 10. Desetiletý růstový scénář
+## 6. Zdroje
 
-Model odděluje dvě složky:
-
-```text
-marketDynamism =
-  0,32 × ekonomická svoboda
-  + 0,24 × růstový potenciál
-  + 0,16 × fiskální stabilita
-  + 0,14 × jednoduchost
-  + 0,14 × (100 − přerozdělování)
-
-publicCapital =
-  0,30 × růstový potenciál
-  + 0,25 × integrita
-  + 0,20 × jednoduchost
-  + 0,15 × pokrytí
-  + 0,10 × cílení
-```
-
-Následují penalizace za mezní klín nad výchozí hodnotou, růst daňové kvóty bez odpovídající návratnosti a extrémní podfinancování základních funkcí.
-
-Výsledek je omezen na −6 až +5 % HDP na obyvatele po deseti letech proti pokračování trendu. Nejde o ekonometrický odhad. Deklarovaná nejistota je nejméně ±2 procentní body.
-
-## 11. Korupční a nehospodárná expozice
-
-Míra rizika vysoce exponovaných investic a zakázek je podle integrity systému rozdělena do pásem 3–7 %, 6–10 %, 9–14 %, 13–19 % a 18–25 %.
-
-Kombinovaná expozice na 1 mil. Kč ekonomické hodnoty:
-
-```text
-riskPerMillion =
-  1 000 000
-  × taxQuota
-  × 20 % podíl veřejného toku s vysokou zakázkovou expozicí
-  × střed rizikového pásma
-```
-
-Dvacetiprocentní podíl je otevřený modelový předpoklad. Výsledek není odhadem prokázané krádeže ani podílem celého rozpočtu.
-
-## 12. Interpretace výsledku
-
-Při porovnávání dvou výsledků je potřeba sledovat současně:
-
-1. peníze pod vlastní kontrolou;
-2. mezní návratnost dodatečného výkonu;
-3. hodnotu veřejných služeb;
-4. soukromou náhradu chybějících služeb;
-5. dlouhodobý růstový scénář;
-6. integritu a korupční expozici;
-7. pokrytí lidí bez rezervy.
-
-Jedna hodnota nemůže nahradit celý společenský kompromis.
+- OECD, *Taxing Wages 2026*: https://www.oecd.org/en/publications/taxing-wages-2026_8c611f4a-en.html
+- OECD, *Taxation and Economic Growth*: https://www.oecd.org/en/publications/taxation-and-economic-growth_241216205486.html
+- Fuest, Peichl, Siegloch, *Do Higher Corporate Taxes Reduce Wages?*: https://pubs.aeaweb.org/doi/abs/10.1257/aer.20130570
+- Jakobsen et al., *Taxing Top Wealth: Migration Responses and their Aggregate Economic Implications*: https://www.nber.org/papers/w32153
+- Milligan, Smart, *Taxation and Top Incomes in Canada*: https://www.nber.org/papers/w20489
+- Piketty, Saez, Stantcheva, *Optimal Taxation of Top Labor Incomes*: https://pubs.aeaweb.org/doi/abs/10.1257/pol.6.1.230
+- Daniel Prokop, *Spravedlivý růst*: https://www.hostbrno.cz/spravedlivy-rust/
