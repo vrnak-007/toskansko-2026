@@ -1,0 +1,27 @@
+{
+  "name": "spravedlivy-rust-analytics-worker",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node --check src/worker.js",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.102.0"
+  },
+  "cloudflare": {
+    "bindings": {
+      "ADMIN_TOKEN": {
+        "description": "Silný náhodný token pro přihlášení do neveřejného manažerského přehledu; alespoň 32 znaků. Uložte jej do správce hesel."
+      },
+      "PSEUDONYM_KEY": {
+        "description": "Jiný náhodný klíč alespoň 64 znaků pro HMAC pseudonymizaci místních identifikátorů. Nikomu jej neposílejte."
+      },
+      "DB": {
+        "description": "D1 databáze pro samostatné záznamy dokončení a odpovědi; při nasazení se automaticky vytvoří."
+      }
+    }
+  }
+}
