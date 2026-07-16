@@ -1,0 +1,38 @@
+{
+  "status": "built",
+  "expectedCommit": "726828af5da77d5bd534d9ddb1af98d9a384068b",
+  "publishedCommit": "726828af5da77d5bd534d9ddb1af98d9a384068b",
+  "checkedAt": "2026-07-16T23:32:42Z",
+  "githubPages": {
+    "url": "https://api.github.com/repos/vrnak-007/toskansko-2026/pages/builds/1099413274",
+    "status": "built",
+    "error": {
+      "message": null
+    },
+    "pusher": {
+      "login": "github-actions[bot]",
+      "id": 41898282,
+      "node_id": "MDM6Qm90NDE4OTgyODI=",
+      "avatar_url": "https://avatars.githubusercontent.com/in/15368?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/github-actions%5Bbot%5D",
+      "html_url": "https://github.com/apps/github-actions",
+      "followers_url": "https://api.github.com/users/github-actions%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/github-actions%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/github-actions%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/github-actions%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/github-actions%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/github-actions%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/github-actions%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/github-actions%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/github-actions%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "commit": "726828af5da77d5bd534d9ddb1af98d9a384068b",
+    "duration": 20892,
+    "created_at": "2026-07-16T23:32:21Z",
+    "updated_at": "2026-07-16T23:32:41Z"
+  }
+}
