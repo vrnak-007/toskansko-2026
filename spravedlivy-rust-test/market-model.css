@@ -1,0 +1,63 @@
+/* Version 2.0: market-liberal cost ledger and option-level impact labels. */
+.hero-grid-four{grid-template-columns:repeat(4,minmax(0,1fr));max-width:900px}
+.input-basis{margin-top:18px;padding:15px 16px;border:1px solid #c9d7d3;background:#f4f8f6;border-radius:13px;color:var(--muted);font-size:.9rem}
+.input-basis b{display:block;color:var(--ink);margin-bottom:4px}
+.start-metrics{display:grid;gap:7px;color:var(--muted);font-size:.88rem}
+.start-metrics span{display:flex;gap:8px;align-items:flex-start}
+.start-metrics span:before{content:"→";color:var(--accent);font-weight:900}
+.question-tradeoff{margin:-8px 0 14px;padding:12px 14px;border-left:4px solid #b44a2d;background:#fff5f1;border-radius:0 10px 10px 0;color:#713e31;font-size:.86rem;font-weight:650}
+.impact-explainer{margin:0 0 15px;padding:11px 13px;border:1px dashed #b9c7c3;border-radius:10px;background:#f9fbfa;color:var(--muted);font-size:.82rem}
+.impact-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.impact-pill{display:inline-flex;gap:4px;align-items:center;padding:5px 8px;border-radius:999px;font-size:.72rem;line-height:1.2;border:1px solid #d7d8d4;background:#f5f5f2;color:#4e5962}
+.impact-pill b{font-weight:850;color:inherit}
+.impact-pill.good{background:#edf7f2;border-color:#b8d9cb;color:#1f6755}
+.impact-pill.bad{background:#fff0ec;border-color:#e8c1b7;color:#8e3c29}
+.impact-pill.neutral{background:#f3f2ee;border-color:#d8d5cd;color:#59636b}
+.result-grid-market{grid-template-columns:repeat(3,minmax(0,1fr))}
+.metric-card.cost{background:#fff5f1;border-color:#e8c7bd}
+.metric-card.market{background:#eef8f3;border-color:#b9d7cc}
+.metric-card.cost .metric-value{color:#9b402b}
+.metric-card.market .metric-value{color:#0d6959}
+.score-seal{width:132px;height:132px}
+.score-seal span{max-width:82px;margin-inline:auto;line-height:1.15}
+.ledger{margin-top:28px;border:1px solid var(--line);border-radius:17px;padding:clamp(18px,3vw,28px);background:#fbfaf7}
+.section-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px}
+.section-head h2{margin:.05em 0 .35em}
+.ledger-basis{display:inline-flex;padding:7px 10px;border-radius:999px;background:#eaf2ef;color:#2b6559;font-size:.78rem;font-weight:850;white-space:nowrap}
+.ledger-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px;background:#fff}
+.ledger-table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.ledger-table th,.ledger-table td{padding:11px 13px;border-bottom:1px solid #ece9e2}
+.ledger-table th{text-align:left;font-weight:680;color:#39434b}
+.ledger-table td{text-align:right;font-weight:850;white-space:nowrap}
+.ledger-table tr:last-child th,.ledger-table tr:last-child td{border-bottom:0}
+.ledger-negative td{color:#9b402b}
+.ledger-positive td{color:#14705d}
+.ledger-subtotal{background:#f7f6f2}
+.ledger-total{background:#edf7f3}
+.ledger-total th,.ledger-total td{font-weight:950;color:#0c5d4f}
+.ledger-return{margin:13px 0 0;font-weight:800;color:#36454d}
+.story-numbers-four{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.story-num b{font-variant-numeric:tabular-nums}
+.method-panel details p strong{color:var(--ink)}
+@media(max-width:920px){
+  .hero-grid-four,.result-grid-market{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .story-numbers-four{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:760px){
+  .hero-grid-four,.result-grid-market{grid-template-columns:1fr}
+  .impact-row{display:grid;grid-template-columns:1fr 1fr}
+  .impact-pill{border-radius:9px;justify-content:flex-start}
+  .section-head{display:block}
+  .ledger-basis{margin-bottom:10px}
+  .story-numbers-four{grid-template-columns:1fr!important}
+  .score-seal{width:104px;height:104px}
+}
+@media(max-width:430px){
+  .impact-row{grid-template-columns:1fr}
+}
+@media print{
+  .impact-explainer{display:none!important}
+  .ledger{break-inside:avoid}
+  .result-grid-market{grid-template-columns:repeat(2,1fr)}
+  .story-numbers-four{grid-template-columns:repeat(2,1fr)!important}
+}
