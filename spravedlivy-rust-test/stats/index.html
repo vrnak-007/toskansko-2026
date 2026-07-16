@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#17252d">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="referrer" content="no-referrer">
+<title>Manažerský přehled – Spravedlivý růst</title>
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<div class="dashboard-shell">
+  <header class="dash-head">
+    <div>
+      <p class="eyebrow">Spravedlivý růst · neveřejný přehled</p>
+      <h1>Statistiky vyplnění</h1>
+      <p>Každé dokončení tvoří samostatný záznam. Opakované průchody ze stejného prohlížeče spojuje pouze pseudonymní alias.</p>
+    </div>
+    <a id="backLink" href="../" class="back-link">Zpět na test</a>
+  </header>
+
+  <section id="configPanel" class="panel message-panel" hidden>
+    <h2>Statistická služba není nakonfigurována</h2>
+    <p>Otevřete stránku s parametrem <code>?analyticsApi=https://…workers.dev</code> nebo vyplňte adresu API v souboru <code>analytics-config.json</code>.</p>
+  </section>
+
+  <section id="loginPanel" class="panel login-panel">
+    <div>
+      <h2>Přístup ke statistikám</h2>
+      <p>Správní token se ukládá jen do dočasného úložiště této záložky. Není součástí URL ani zdrojového kódu.</p>
+    </div>
+    <form id="loginForm" autocomplete="off">
+      <label for="adminToken">Správní token</label>
+      <div class="login-row">
+        <input id="adminToken" name="adminToken" type="password" autocomplete="current-password" required>
+        <button type="submit" class="primary">Otevřít přehled</button>
+      </div>
+      <div id="loginError" class="inline-message" role="alert"></div>
+    </form>
+  </section>
+
+  <main id="dashboard" hidden>
+    <section class="panel filters-panel">
+      <div class="filters">
+        <label>Od<input id="dateFrom" type="date"></label>
+        <label>Do<input id="dateTo" type="date"></label>
+        <label>Max. řádků<select id="rowLimit"><option>250</option><option>1000</option><option selected>5000</option></select></label>
+        <button id="refreshBtn" class="primary" type="button">Načíst data</button>
+        <button id="exportBtn" class="secondary" type="button">Export CSV</button>
+        <button id="logoutBtn" class="ghost" type="button">Odhlásit</button>
+      </div>
+      <div id="loadStatus" class="load-status" aria-live="polite"></div>
+    </section>
+
+    <section id="kpis" class="kpi-grid" aria-label="Hlavní ukazatele"></section>
+
+    <section class="manager-grid manager-grid-wide">
+      <article class="panel analysis-panel">
+        <div class="section-head"><div><p class="eyebrow dark">Interpretace</p><h2>Manažerské shrnutí</h2></div><span id="analysisBasis" class="small-badge"></span></div>
+        <div id="analysisText" class="analysis-text"></div>
+        <div class="caveat"><strong>Omezení:</strong> jde o dobrovolný samovýběrový vzorek. Každé dokončení je samostatná jednotka; opakované průchody mohou průměry ovlivnit. Výsledky nelze zobecnit na populaci České republiky ani považovat za volební průzkum.</div>
+      </article>
+      <article class="panel">
+        <div class="section-head"><div><p class="eyebrow dark">Rozložení</p><h2>Typy společenského modelu</h2></div></div>
+        <div id="archetypeChart" class="rank-chart"></div>
+      </article>
+    </section>
+
+    <section class="manager-grid">
+      <article class="panel">
+        <div class="section-head"><div><p class="eyebrow dark">Průměry</p><h2>Profil zvolených modelů</h2></div></div>
+        <div id="metricChart" class="metric-chart"></div>
+      </article>
+      <article class="panel">
+        <div class="section-head"><div><p class="eyebrow dark">Vývoj</p><h2>Dokončení v čase</h2></div></div>
+        <div id="dailyChart" class="daily-chart"></div>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="section-head"><div><p class="eyebrow dark">Volby</p><h2>Rozložení odpovědí po otázkách</h2></div><span class="small-badge">počítá každý průchod</span></div>
+      <div id="questionCharts" class="question-charts"></div>
+    </section>
+
+    <section class="panel table-panel">
+      <div class="section-head table-head">
+        <div><p class="eyebrow dark">Detail</p><h2>Jednotlivá dokončení</h2></div>
+        <div class="table-tools">
+          <label for="tableSearch">Filtrovat</label>
+          <input id="tableSearch" type="search" placeholder="alias, typ, ID, odpovědi…">
+          <span id="rowCounter" class="small-badge"></span>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>Čas</th><th>Pseudonym</th><th>Typ</th><th>L–P</th><th>Přerozd.</th><th>Kapacita</th><th>Efektivita</th><th>Integrita</th><th>Ekon. svoboda</th><th>Obč. svoboda</th><th>Daňová kvóta</th><th>HDP 10 let</th><th>Rodinné zdroje</th><th>Čas</th><th>Riziko ztrát</th><th>Odpovědi</th><th>Akce</th>
+          </tr></thead>
+          <tbody id="resultsBody"></tbody>
+        </table>
+      </div>
+      <p id="truncatedNote" class="fineprint"></p>
+    </section>
+  </main>
+</div>
+
+<dialog id="answersDialog">
+  <form method="dialog" class="dialog-head"><strong>Odpovědi dokončení</strong><button aria-label="Zavřít">×</button></form>
+  <div id="answersContent" class="answers-content"></div>
+</dialog>
+<script src="./app.js"></script>
+</body>
+</html>
