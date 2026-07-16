@@ -7,6 +7,7 @@
 <meta name="theme-color" content="#17252d">
 <meta name="description" content="Interaktivní test 15 rozhodnutí o českém státu: levice–pravice, přerozdělování, efektivita, svoboda, prosperita a příběh rodiny z Hvozdnice.">
 <meta name="robots" content="index,follow">
+<meta name="referrer" content="no-referrer">
 <link rel="canonical" href="https://vrnak-007.github.io/toskansko-2026/spravedlivy-rust-test/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="cs_CZ">
@@ -16,6 +17,7 @@
 <meta name="twitter:card" content="summary">
 <title>Spravedlivý růst – test společenského modelu</title>
 <link rel="stylesheet" href="./styles.css">
+<link rel="stylesheet" href="./analytics.css">
 </head>
 <body>
 <div class="shell">
@@ -47,16 +49,22 @@
         <strong>Výsledek obsahuje</strong>
         <div style="font-size:.9rem;color:var(--muted)">levici–pravici, daňovou kvótu, efektivitu, desetiletý růstový scénář, ekonomickou a občanskou svobodu, přesnost a pokrytí pomoci, riziko korupčních a nehospodárných úniků a model rodiny.</div>
         <button id="startBtn" class="primary wide">Spustit test</button>
-        <div class="fineprint">Vše běží pouze v tomto prohlížeči. Odpovědi se nikam neodesílají.</div>
+        <div class="analytics-consent">
+          <label>
+            <input id="analyticsConsent" type="checkbox" disabled>
+            <span><strong>Výslovně souhlasím</strong> s uložením tohoto výsledku pro neveřejné statistiky. Výsledek může vypovídat o mých politických názorech. Uloží se zvolené odpovědi, výsledkové ukazatele, čas a pseudonymní identifikátor pro rozpoznání opakovaných průchodů. Surová IP adresa se do aplikační databáze neukládá. <a class="privacy-link" href="./privacy.html">Podrobnosti a výmaz údajů</a>.</span>
+          </label>
+          <small id="analyticsServiceNote" class="analytics-service-note">Ověřuji dostupnost statistické služby…</small>
+        </div>
+        <div class="fineprint">Bez souhlasu zůstávají odpovědi pouze v tomto prohlížeči. Se souhlasem se po dokončení odešle jeden pseudonymní statistický záznam.</div>
       </div>
     </div>
+    <div class="analytics-small-link"><a class="stats-link" href="./stats/" rel="nofollow">statistiky vyplnění</a></div>
   </section>
 
   <section id="quizPanel" class="panel" aria-live="polite">
     <div class="topline">
-      <div>
-        <div class="progress-meta" id="progressText">Otázka 1 z 15</div>
-      </div>
+      <div><div class="progress-meta" id="progressText">Otázka 1 z 15</div></div>
       <div class="progress-meta" id="answeredText">0 / 15 zodpovězeno</div>
     </div>
     <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
@@ -82,36 +90,12 @@
     </div>
 
     <div class="result-grid">
-      <div class="metric-card emphasis">
-        <h3>Ekonomická orientace</h3>
-        <div class="metric-value" id="lrValue">–</div>
-        <div class="metric-sub" id="lrSub"></div>
-      </div>
-      <div class="metric-card">
-        <h3>Modelová daňová kvóta</h3>
-        <div class="metric-value" id="taxValue">–</div>
-        <div class="metric-sub">Příjmy státu a povinných systémů jako podíl HDP; scénářový převod, nikoli rozpočtový výpočet.</div>
-      </div>
-      <div class="metric-card emphasis">
-        <h3>HDP na obyvatele po 10 letech</h3>
-        <div class="metric-value" id="gdpValue">–</div>
-        <div class="metric-sub" id="gdpSub"></div>
-      </div>
-      <div class="metric-card">
-        <h3>Čas pro sebe a rodinu</h3>
-        <div class="metric-value" id="timeValue">–</div>
-        <div class="metric-sub">Modelový čas na jednoho dospělého týdně mimo práci, dojíždění a nutnou domácí péči.</div>
-      </div>
-      <div class="metric-card">
-        <h3>Pomoc skutečně potřebným</h3>
-        <div class="metric-value" id="targetValue">–</div>
-        <div class="metric-sub" id="targetSub"></div>
-      </div>
-      <div class="metric-card warning">
-        <h3>Riziko ztrát u exponovaných zakázek</h3>
-        <div class="metric-value" id="leakValue">–</div>
-        <div class="metric-sub" id="leakSub"></div>
-      </div>
+      <div class="metric-card emphasis"><h3>Ekonomická orientace</h3><div class="metric-value" id="lrValue">–</div><div class="metric-sub" id="lrSub"></div></div>
+      <div class="metric-card"><h3>Modelová daňová kvóta</h3><div class="metric-value" id="taxValue">–</div><div class="metric-sub">Příjmy státu a povinných systémů jako podíl HDP; scénářový převod, nikoli rozpočtový výpočet.</div></div>
+      <div class="metric-card emphasis"><h3>HDP na obyvatele po 10 letech</h3><div class="metric-value" id="gdpValue">–</div><div class="metric-sub" id="gdpSub"></div></div>
+      <div class="metric-card"><h3>Čas pro sebe a rodinu</h3><div class="metric-value" id="timeValue">–</div><div class="metric-sub">Modelový čas na jednoho dospělého týdně mimo práci, dojíždění a nutnou domácí péči.</div></div>
+      <div class="metric-card"><h3>Pomoc skutečně potřebným</h3><div class="metric-value" id="targetValue">–</div><div class="metric-sub" id="targetSub"></div></div>
+      <div class="metric-card warning"><h3>Riziko ztrát u exponovaných zakázek</h3><div class="metric-value" id="leakValue">–</div><div class="metric-sub" id="leakSub"></div></div>
     </div>
 
     <div class="bars" id="bars"></div>
@@ -148,6 +132,7 @@
       <button id="printBtn" class="secondary">Vytisknout / uložit do PDF</button>
       <button id="restartBtn" class="ghost">Vyplnit znovu</button>
     </div>
+    <div id="analyticsStatus" class="analytics-result-status" role="status" aria-live="polite"></div>
   </section>
 
   <section class="panel method-panel">
@@ -171,6 +156,10 @@
       <p>Jde o modelovaný podíl <strong>nové nepensionní sociální pomoci</strong>, který připadne domácnostem ve spodních 40 % příjmového rozdělení nebo lidem se zjevnou potřebou. Vedle přesnosti se samostatně počítá pokrytí: přísně testovaná dávka může jít převážně chudým, ale mnoho oprávněných lidí ji kvůli složitosti nedostane; univerzální dávka má vysoké pokrytí, ale menší podíl směřuje jen potřebným.</p>
     </details>
     <details>
+      <summary>Dobrovolné statistiky a opakovaná vyplnění</summary>
+      <p>Bez zaškrtnutého výslovného souhlasu se výsledek nikam neodesílá. Se souhlasem vznikne pro každé dokončení samostatný záznam. Opakované průchody ze stejného prohlížeče se rozlišují pseudonymním klíčovaným otiskem náhodného místního identifikátoru; surová IP adresa, user-agent ani fingerprint zařízení se do aplikační databáze neukládají. Podrobnosti, dobu uchování a možnost výmazu uvádí <a class="privacy-link" href="./privacy.html">informace o zpracování údajů</a>.</p>
+    </details>
+    <details>
       <summary>Hlavní výzkumné podklady</summary>
       <ol class="source-list">
         <li><a href="https://www.hostbrno.cz/spravedlivy-rust/" target="_blank" rel="noopener">Daniel Prokop: <em>Spravedlivý růst</em></a>, oficiální anotace; témata daňového mixu, sociálního systému, penzí, prevence, bydlení, regionů a vzdělávání.</li>
@@ -183,7 +172,7 @@
         <li>Český statistický úřad: <a href="https://csu.gov.cz/docs/107847/96920a0d-b169-ad96-d665-3bbdc2c0dc59/obyv_obce_25.pdf?version=1.0" target="_blank" rel="noopener">obyvatelstvo obcí</a> a <a href="https://csu.gov.cz/zamestnanci-a-mzdy" target="_blank" rel="noopener">mzdové ukazatele</a>; Hvozdnice (Praha-západ) slouží pouze jako kulisa modelového příběhu.</li>
       </ol>
     </details>
-    <p class="fineprint">Verze 1.0 · červenec 2026. Model je záměrně auditovatelný: všechny převody jsou uvedeny výše a ve zdrojovém kódu této stránky. Je vhodný pro diskusi mezi přáteli, ne pro akademické měření ideologie nebo rozpočtové plánování.</p>
+    <p class="fineprint">Verze 1.1 · červenec 2026. Model je záměrně auditovatelný: všechny převody jsou uvedeny výše a ve zdrojovém kódu této stránky. Je vhodný pro diskusi mezi přáteli, ne pro akademické měření ideologie nebo rozpočtové plánování.</p>
   </section>
 </div>
 <div class="toast" id="toast">Výsledek byl zkopírován.</div>
@@ -194,5 +183,6 @@
 <script src="./questions-3.js"></script>
 <script src="./app-core.js"></script>
 <script src="./app-results.js"></script>
+<script src="./analytics.js"></script>
 </body>
 </html>

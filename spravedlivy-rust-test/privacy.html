@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#17252d">
+<meta name="robots" content="noindex,follow">
+<meta name="referrer" content="no-referrer">
+<title>Ochrana soukromí – Spravedlivý růst</title>
+<link rel="stylesheet" href="./styles.css">
+<style>
+  .privacy-shell{width:min(880px,calc(100% - 28px));margin:28px auto 70px}
+  .privacy-head{background:linear-gradient(145deg,#17252d,#2d4e51);color:#fff;border-radius:24px;padding:clamp(26px,5vw,48px);box-shadow:var(--shadow)}
+  .privacy-head h1{font-size:clamp(2rem,5vw,3.7rem);line-height:1;letter-spacing:-.04em;margin:0 0 15px}
+  .privacy-head p{color:#dfe9e7;max-width:740px;margin:0}
+  .privacy-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:clamp(20px,4vw,38px);margin-top:20px;box-shadow:var(--shadow)}
+  .privacy-card h2{margin:1.5em 0 .45em;font-size:1.35rem}.privacy-card h2:first-child{margin-top:0}
+  .privacy-card p,.privacy-card li{color:var(--muted)}.privacy-card li{margin:.45em 0}
+  .meta-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:20px 0}
+  .meta-box{border:1px solid var(--line);border-radius:12px;padding:14px;background:#faf9f6}.meta-box b{display:block;margin-bottom:4px}.meta-box span{font-size:.86rem;color:var(--muted)}
+  .privacy-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}.privacy-actions a{text-decoration:none;display:inline-flex;align-items:center}
+  .privacy-status{display:none;margin-top:14px;padding:12px 14px;border-radius:10px}.privacy-status[data-tone="ok"]{display:block;background:#e9f2ef;color:#0f5c50}.privacy-status[data-tone="warning"]{display:block;background:#fff2dc;color:#74521c}.privacy-status[data-tone="error"]{display:block;background:#f9e7e2;color:#8d321f}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#f2f0eb;padding:2px 5px;border-radius:5px}
+  @media(max-width:680px){.meta-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main class="privacy-shell">
+  <header class="privacy-head">
+    <p class="eyebrow">Informace o zpracování osobních údajů</p>
+    <h1>Soukromí a statistiky testu</h1>
+    <p>Statistický sběr je dobrovolný. Test lze dokončit bez souhlasu a bez odeslání výsledku. Protože výsledek může vypovídat o politických názorech, je odeslání podmíněno samostatným výslovným souhlasem.</p>
+  </header>
+
+  <section class="privacy-card">
+    <h2>Správce, kontakt a účel</h2>
+    <p><strong>Správce:</strong> Radek Vrňák, provozovatel testu. <strong>Kontakt:</strong> veřejný <a href="https://github.com/vrnak-007" target="_blank" rel="noopener">profil vrnak-007 na GitHubu</a>.</p>
+    <p>Účelem je vytvořit neveřejný manažerský přehled o odpovědích dobrovolných účastníků, jejich modelových výsledcích a opakovaných průchodech. Údaje se nepoužívají pro reklamu, obchodní nabídky, rozhodování o konkrétních osobách ani jmenné politické profily.</p>
+
+    <div class="meta-grid">
+      <div class="meta-box"><b>Právní základ</b><span>Výslovný souhlas podle čl. 6 odst. 1 písm. a) a čl. 9 odst. 2 písm. a) GDPR.</span></div>
+      <div class="meta-box"><b>Doba uchování</b><span>Nejvýše 365 dní od přijetí každého záznamu, není-li dříve vymazán.</span></div>
+      <div class="meta-box"><b>Identifikátor</b><span>Náhodné UUID v prohlížeči; databáze ukládá pouze klíčovaný kryptografický otisk.</span></div>
+      <div class="meta-box"><b>IP adresa</b><span>Aplikační databáze ji neukládá. Poskytovatel infrastruktury ji může technicky zpracovat pro přenos, bezpečnost a provozní logy.</span></div>
+    </div>
+
+    <h2>Jaké údaje se po souhlasu ukládají</h2>
+    <ul>
+      <li>samostatné ID každého dokončeného průchodu, čas dokončení, čas a verze souhlasu;</li>
+      <li>pseudonymní klíčovaný otisk místního identifikátoru, který umožní rozlišit opakované průchody ze stejného prohlížeče;</li>
+      <li>text a interní identifikátor všech 15 zvolených odpovědí;</li>
+      <li>výsledkový profil: levice–pravice, přerozdělování, kapacita a efektivita státu, integrita, svobody, cílení a pokrytí pomoci, fiskální udržitelnost, růstový scénář, čas a modelové rodinné ukazatele;</li>
+      <li>verze testu a technická doména, ze které byl požadavek odeslán.</li>
+    </ul>
+
+    <h2>Co se v aplikační databázi neukládá</h2>
+    <ul>
+      <li>jméno, e-mail, telefon, poštovní adresa ani účet na sociální síti;</li>
+      <li>surová IP adresa, přesná geolokace, user-agent nebo otisk zařízení;</li>
+      <li>cookies třetích stran, reklamní identifikátory ani obsah jiných webů.</li>
+    </ul>
+    <p>Pseudonymizace snižuje riziko, ale sama o sobě nemění údaje na anonymní. Opakované vyplnění ze stejného prohlížeče je v přehledu rozpoznatelné, zatímco jednotlivá dokončení zůstávají samostatnými řádky.</p>
+
+    <h2>Příjemci a umístění služby</h2>
+    <p>Veřejnou stránku poskytuje GitHub Pages. Statistické API a SQL databázi zajišťují Cloudflare Workers a D1. Tito poskytovatelé mohou zpracovávat nezbytná síťová a bezpečnostní metadata podle svých podmínek a nastavení účtu. Detailní tabulka je dostupná pouze po zadání správního tokenu; samotný nenápadný odkaz není bezpečnostním opatřením.</p>
+
+    <h2>Dobrovolnost, odvolání souhlasu a práva</h2>
+    <p>Souhlas není podmínkou použití testu. Lze jej odvolat bez dopadu na zákonnost předchozího zpracování. Tlačítko níže odstraní všechny záznamy spojené s pseudonymem uloženým v tomto konkrétním prohlížeči a následně odstraní i místní identifikátor.</p>
+    <p>Lze uplatnit právo na přístup, opravu, výmaz, omezení zpracování a přenositelnost v rozsahu, v němž se použijí, a podat stížnost u Úřadu pro ochranu osobních údajů. U pseudonymních údajů může být pro spojení žádosti se záznamem nutné prokázat vazbu na místní identifikátor. Po jeho ručním smazání již správce nemusí mít technickou možnost konkrétní záznam dohledat.</p>
+
+    <div class="privacy-actions">
+      <button id="withdrawBtn" class="secondary" type="button">Odvolat souhlas a vymazat mé záznamy</button>
+      <a id="backLink" class="ghost" href="./">Zpět na test</a>
+    </div>
+    <div id="withdrawStatus" class="privacy-status" role="status" aria-live="polite"></div>
+
+    <p class="fineprint">Verze informace: 16. července 2026 · verze souhlasu <code>2026-07-16-v1</code>. Agregované výsledky jsou samovýběrovým vzorkem a nejsou reprezentativním průzkumem obyvatel České republiky.</p>
+  </section>
+</main>
+<script>
+(() => {
+  "use strict";
+  const CONFIG_PATH = "./analytics-config.json";
+  const PARTICIPANT_KEY = "spravedlivy_rust_participant_v1";
+  const query = new URL(location.href).searchParams.get("analyticsApi") || "";
+  const button = document.getElementById("withdrawBtn");
+  const status = document.getElementById("withdrawStatus");
+  const back = document.getElementById("backLink");
+  let apiBase = "";
+
+  const setStatus = (text, tone) => { status.textContent = text; status.dataset.tone = tone; };
+  const normalize = value => { try { const u = new URL(value); return u.protocol === "https:" ? u.origin + u.pathname.replace(/\/$/, "") : ""; } catch { return ""; } };
+  const isUuid = value => typeof value === "string" && /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
+
+  init().catch(() => { button.disabled = true; setStatus("Statistickou službu se nepodařilo načíst.", "error"); });
+
+  async function init() {
+    const response = await fetch(CONFIG_PATH, { cache: "no-store", credentials: "omit" });
+    const config = response.ok ? await response.json() : {};
+    apiBase = normalize(query || config.apiBase || "");
+    if (apiBase) back.href = `./?analyticsApi=${encodeURIComponent(apiBase)}`;
+    const participantId = localStorage.getItem(PARTICIPANT_KEY);
+    if (!apiBase) {
+      button.disabled = true;
+      setStatus("Statistické API není na této adrese aktivní.", "warning");
+    } else if (!isUuid(participantId)) {
+      button.disabled = true;
+      setStatus("V tomto prohlížeči není uložen pseudonym statistického sběru. Není co automaticky vymazat.", "warning");
+    }
+  }
+
+  button.addEventListener("click", async () => {
+    const participantId = localStorage.getItem(PARTICIPANT_KEY);
+    if (!apiBase || !isUuid(participantId)) return;
+    button.disabled = true;
+    setStatus("Mažu všechny záznamy spojené s místním pseudonymem…", "warning");
+    try {
+      const response = await fetch(`${apiBase}/v1/withdraw`, {
+        method: "POST", mode: "cors", credentials: "omit", cache: "no-store", referrerPolicy: "no-referrer",
+        headers: { "Content-Type": "application/json" }, body: JSON.stringify({ participantId })
+      });
+      const body = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(body.error || `HTTP ${response.status}`);
+      localStorage.removeItem(PARTICIPANT_KEY);
+      setStatus(`Výmaz dokončen. Odstraněno dokončení: ${Number(body.deletedSubmissions || 0)}. Místní pseudonym byl odstraněn.`, "ok");
+    } catch {
+      button.disabled = false;
+      setStatus("Výmaz se nepodařilo dokončit. Zkontrolujte spojení a operaci zopakujte.", "error");
+    }
+  });
+})();
+</script>
+</body>
+</html>
