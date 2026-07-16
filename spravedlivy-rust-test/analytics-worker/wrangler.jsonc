@@ -1,0 +1,23 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "spravedlivy-rust-analytics",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-07-16",
+  "workers_dev": true,
+  "vars": {
+    "ALLOWED_ORIGINS": "https://vrnak-007.github.io",
+    "CONSENT_VERSION": "2026-07-16-v1",
+    "RETENTION_DAYS": "365"
+  },
+  "secrets": {
+    "required": ["ADMIN_TOKEN", "PSEUDONYM_KEY"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB"
+    }
+  ],
+  "triggers": {
+    "crons": ["17 3 * * *"]
+  }
+}
