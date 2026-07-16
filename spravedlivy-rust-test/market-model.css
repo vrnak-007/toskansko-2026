@@ -5,6 +5,7 @@
 .start-metrics{display:grid;gap:7px;color:var(--muted);font-size:.88rem}
 .start-metrics span{display:flex;gap:8px;align-items:flex-start}
 .start-metrics span:before{content:"→";color:var(--accent);font-weight:900}
+.question-tradeoff{margin:-8px 0 14px;padding:12px 14px;border-left:4px solid #b44a2d;background:#fff5f1;border-radius:0 10px 10px 0;color:#713e31;font-size:.86rem;font-weight:650}
 .impact-explainer{margin:0 0 15px;padding:11px 13px;border:1px dashed #b9c7c3;border-radius:10px;background:#f9fbfa;color:var(--muted);font-size:.82rem}
 .impact-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .impact-pill{display:inline-flex;gap:4px;align-items:center;padding:5px 8px;border-radius:999px;font-size:.72rem;line-height:1.2;border:1px solid #d7d8d4;background:#f5f5f2;color:#4e5962}
