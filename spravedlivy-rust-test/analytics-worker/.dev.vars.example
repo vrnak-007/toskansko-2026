@@ -1,0 +1,3 @@
+# Vygenerujte dva nezávislé náhodné řetězce. Skutečný soubor .dev.vars nikdy necommitujte.
+ADMIN_TOKEN=replace-with-a-random-admin-token-at-least-32-characters
+PSEUDONYM_KEY=replace-with-an-independent-random-key-at-least-64-characters
