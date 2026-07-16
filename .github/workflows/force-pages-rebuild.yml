@@ -4,10 +4,12 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - pages-build-status.json
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
 
 concurrency:
@@ -23,8 +25,87 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
-          curl --fail-with-body --location --request POST \
+          curl --fail-with-body --silent --show-error --location --request POST \
             --header "Accept: application/vnd.github+json" \
             --header "Authorization: Bearer ${GH_TOKEN}" \
             --header "X-GitHub-Api-Version: 2026-03-10" \
             "https://api.github.com/repos/${GITHUB_REPOSITORY}/pages/builds"
+
+      - name: Wait for the requested commit to be published
+        id: pages
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          status="queued"
+          build_commit=""
+          payload="{}"
+
+          for attempt in $(seq 1 36); do
+            payload="$(curl --fail-with-body --silent --show-error --location \
+              --header "Accept: application/vnd.github+json" \
+              --header "Authorization: Bearer ${GH_TOKEN}" \
+              --header "X-GitHub-Api-Version: 2026-03-10" \
+              "https://api.github.com/repos/${GITHUB_REPOSITORY}/pages/builds/latest")"
+            status="$(jq -r '.status // "unknown"' <<<"${payload}")"
+            build_commit="$(jq -r '.commit // ""' <<<"${payload}")"
+            echo "Pages build status=${status}; commit=${build_commit}; expected=${GITHUB_SHA}"
+
+            if [[ "${build_commit}" == "${GITHUB_SHA}" && "${status}" == "built" ]]; then
+              break
+            fi
+            if [[ "${build_commit}" == "${GITHUB_SHA}" && "${status}" == "errored" ]]; then
+              break
+            fi
+            sleep 5
+          done
+
+          echo "status=${status}" >> "${GITHUB_OUTPUT}"
+          echo "build_commit=${build_commit}" >> "${GITHUB_OUTPUT}"
+          echo "payload_b64=$(printf '%s' "${payload}" | base64 -w0)" >> "${GITHUB_OUTPUT}"
+
+      - name: Record deployment result in the repository
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BUILD_STATUS: ${{ steps.pages.outputs.status }}
+          BUILD_COMMIT: ${{ steps.pages.outputs.build_commit }}
+          BUILD_PAYLOAD_B64: ${{ steps.pages.outputs.payload_b64 }}
+        run: |
+          set -euo pipefail
+          build_payload="$(printf '%s' "${BUILD_PAYLOAD_B64}" | base64 -d)"
+          checked_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          report="$(jq -n \
+            --arg status "${BUILD_STATUS}" \
+            --arg expectedCommit "${GITHUB_SHA}" \
+            --arg publishedCommit "${BUILD_COMMIT}" \
+            --arg checkedAt "${checked_at}" \
+            --argjson githubPages "${build_payload}" \
+            '{status:$status,expectedCommit:$expectedCommit,publishedCommit:$publishedCommit,checkedAt:$checkedAt,githubPages:$githubPages}')"
+          encoded="$(printf '%s\n' "${report}" | base64 -w0)"
+
+          existing_sha="$(curl --silent --show-error --location \
+            --header "Accept: application/vnd.github+json" \
+            --header "Authorization: Bearer ${GH_TOKEN}" \
+            --header "X-GitHub-Api-Version: 2026-03-10" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/contents/pages-build-status.json" | jq -r '.sha // empty')"
+
+          body="$(jq -n \
+            --arg message "Record GitHub Pages deployment status" \
+            --arg content "${encoded}" \
+            --arg branch "main" \
+            --arg sha "${existing_sha}" \
+            'if $sha == "" then {message:$message,content:$content,branch:$branch} else {message:$message,content:$content,branch:$branch,sha:$sha} end')"
+
+          curl --fail-with-body --silent --show-error --location --request PUT \
+            --header "Accept: application/vnd.github+json" \
+            --header "Authorization: Bearer ${GH_TOKEN}" \
+            --header "X-GitHub-Api-Version: 2026-03-10" \
+            --header "Content-Type: application/json" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/contents/pages-build-status.json" \
+            --data "${body}"
+
+      - name: Fail if the current commit was not published
+        if: steps.pages.outputs.status != 'built' || steps.pages.outputs.build_commit != github.sha
+        run: |
+          echo "GitHub Pages did not publish the expected commit."
+          exit 1
