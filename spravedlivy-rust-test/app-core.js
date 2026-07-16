@@ -1,6 +1,25 @@
 let current = 0;
 const selected = Array(questions.length).fill(null);
 
+
+const QUESTION_TRADEOFFS = Object.freeze([
+  "Každá sleva na jedné dani znamená buď nižší veřejné výdaje, vyšší dluh, nebo jinou daň. Zdanění práce a firem snižuje čistou odměnu a investiční návratnost; majetková daň snižuje hotovost vlastníka.",
+  "Podpora nízkých mezd se vždy financuje z daní, cen nebo nižší marže zaměstnavatele. Prudké odebrání podpory zároveň může způsobit, že další směna domácnosti téměř nic nepřinese.",
+  "Plošná dávka je jednoduchá, ale platí ji i lidé, kteří na ni nemají nárok. Přísně cílená dávka stojí administrativu a může minout potřebné. Rozhodujete, kdo ponese oba náklady.",
+  "Veřejná péče a delší placené volno vyžadují vyšší odvody nebo omezení jiných služeb. Čistě soukromé řešení ponechává volbu, ale přesouvá celé náklady a riziko na rodinu.",
+  "Dotace bydlení často zvyšují poptávku a část podpory se promítne do cen. Veřejná výstavba vyžaduje daně a kapitál; deregulace zase přenáší část nákladů na okolí a infrastrukturu.",
+  "Vyšší školské výdaje musí být financovány a bez změny řízení nemusejí přinést výsledek. Větší volba škol může zvýšit výkon, ale také třídění podle příjmu a informovanosti rodičů.",
+  "Vyrovnávání regionů znamená, že silnější obce odevzdají část výnosů slabším. Projektové dotace přidávají administrativu a lobbying; vysoká místní autonomie zvětšuje rozdíly ve službách.",
+  "Péče zdarma v místě spotřeby není bezplatná: platí se odvody, daněmi, čekáním nebo omezeným rozsahem. Vyšší spoluúčast drží cenu viditelnou, ale může odradit chudší od včasné péče.",
+  "Každý důchodový slib musí zaplatit vyšší odvod, pozdější odchod, soukromá úspora nebo dluh. Zvolit lze rozdělení nákladů, nikoli jejich odstranění.",
+  "Dotace, národní šampioni a pobídky přesouvají podnikatelské riziko na daňového poplatníka a mohou vytlačit konkurenci. Plošně nižší daně ponechají kapitál firmám, ale omezí veřejný výzkum a infrastrukturu.",
+  "Cenové stropy a plošné kompenzace snižují dnešní účet, ale platí se z daní nebo dluhu a oslabují motivaci šetřit. Plná tržní cena zachová signál, ale dopadne rychleji na rodinný rozpočet.",
+  "Čím více peněz stát zadává, tím větší absolutní částka je vystavena chybám, klientelismu a korupci. Přísnější kontrola riziko snižuje, ale může prodloužit a zdražit realizaci.",
+  "Propojený digitální stát šetří formuláře, ale soustřeďuje data a rozhodovací moc. Roztříštěný systém chrání před centrálním zneužitím, ale platí se časem občana a duplicitní správou.",
+  "Povinně kratší pracovní doba při stejné mzdě zvyšuje cenu hodiny práce a může zdražit služby nebo snížit zaměstnanost. Čistě smluvní volnost zase nemusí dát slabším zaměstnancům skutečnou možnost volby.",
+  "Krizovou podporu vždy někdo zaplatí: současný poplatník, budoucí poplatník přes dluh, nebo příjemce škrtané služby. Selektivní pomoc navíc zvyšuje cenu lobbingu a politického přístupu."
+]);
+
 const FAMILY_MODEL = Object.freeze({
   labourCost: 120000,
   essentialPrivateCosts: 45500,
@@ -25,6 +44,7 @@ function renderQuestion() {
   el("questionNumber").textContent = `Rozhodnutí ${current + 1}`;
   el("questionTitle").textContent = q.title;
   el("questionContext").textContent = q.context;
+  el("questionTradeoff").textContent = QUESTION_TRADEOFFS[current];
   el("progressText").textContent = `Otázka ${current + 1} z ${questions.length}`;
   el("answeredText").textContent = `${selected.filter(v => v !== null).length} / ${questions.length} zodpovězeno`;
   el("progressFill").style.width = `${((current + 1) / questions.length) * 100}%`;
