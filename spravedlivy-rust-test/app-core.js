@@ -1,36 +1,28 @@
 let current = 0;
 const selected = Array(questions.length).fill(null);
-
+const el = id => document.getElementById(id);
+const introPanel = el("introPanel");
+const quizPanel = el("quizPanel");
+const resultPanel = el("resultPanel");
+const BASELINE_SCENARIO = TaxModel.compute(Array(questions.length).fill(null));
 
 const QUESTION_TRADEOFFS = Object.freeze([
-  "Každá sleva na jedné dani znamená buď nižší veřejné výdaje, vyšší dluh, nebo jinou daň. Zdanění práce a firem snižuje čistou odměnu a investiční návratnost; majetková daň snižuje hotovost vlastníka.",
-  "Podpora nízkých mezd se vždy financuje z daní, cen nebo nižší marže zaměstnavatele. Prudké odebrání podpory zároveň může způsobit, že další směna domácnosti téměř nic nepřinese.",
-  "Plošná dávka je jednoduchá, ale platí ji i lidé, kteří na ni nemají nárok. Přísně cílená dávka stojí administrativu a může minout potřebné. Rozhodujete, kdo ponese oba náklady.",
-  "Veřejná péče a delší placené volno vyžadují vyšší odvody nebo omezení jiných služeb. Čistě soukromé řešení ponechává volbu, ale přesouvá celé náklady a riziko na rodinu.",
-  "Dotace bydlení často zvyšují poptávku a část podpory se promítne do cen. Veřejná výstavba vyžaduje daně a kapitál; deregulace zase přenáší část nákladů na okolí a infrastrukturu.",
-  "Vyšší školské výdaje musí být financovány a bez změny řízení nemusejí přinést výsledek. Větší volba škol může zvýšit výkon, ale také třídění podle příjmu a informovanosti rodičů.",
-  "Vyrovnávání regionů znamená, že silnější obce odevzdají část výnosů slabším. Projektové dotace přidávají administrativu a lobbying; vysoká místní autonomie zvětšuje rozdíly ve službách.",
-  "Péče zdarma v místě spotřeby není bezplatná: platí se odvody, daněmi, čekáním nebo omezeným rozsahem. Vyšší spoluúčast drží cenu viditelnou, ale může odradit chudší od včasné péče.",
-  "Každý důchodový slib musí zaplatit vyšší odvod, pozdější odchod, soukromá úspora nebo dluh. Zvolit lze rozdělení nákladů, nikoli jejich odstranění.",
-  "Dotace, národní šampioni a pobídky přesouvají podnikatelské riziko na daňového poplatníka a mohou vytlačit konkurenci. Plošně nižší daně ponechají kapitál firmám, ale omezí veřejný výzkum a infrastrukturu.",
-  "Cenové stropy a plošné kompenzace snižují dnešní účet, ale platí se z daní nebo dluhu a oslabují motivaci šetřit. Plná tržní cena zachová signál, ale dopadne rychleji na rodinný rozpočet.",
-  "Čím více peněz stát zadává, tím větší absolutní částka je vystavena chybám, klientelismu a korupci. Přísnější kontrola riziko snižuje, ale může prodloužit a zdražit realizaci.",
-  "Propojený digitální stát šetří formuláře, ale soustřeďuje data a rozhodovací moc. Roztříštěný systém chrání před centrálním zneužitím, ale platí se časem občana a duplicitní správou.",
-  "Povinně kratší pracovní doba při stejné mzdě zvyšuje cenu hodiny práce a může zdražit služby nebo snížit zaměstnanost. Čistě smluvní volnost zase nemusí dát slabším zaměstnancům skutečnou možnost volby.",
-  "Krizovou podporu vždy někdo zaplatí: současný poplatník, budoucí poplatník přes dluh, nebo příjemce škrtané služby. Selektivní pomoc navíc zvyšuje cenu lobbingu a politického přístupu."
+  "Rozhodujete, kdo zaplatí stát: zaměstnanec, spotřebitel, vlastník majetku, firma, nebo budoucí poplatník přes dluh.",
+  "Podpora nízké mzdy se platí z daní nebo vyšších nákladů zaměstnavatele. Prudké odebrání dávky může zároveň znehodnotit další směnu.",
+  "Plošnou dávku platí i lidé, kteří ji nepotřebují. Přísné cílení zase stojí administrativu a může minout oprávněné.",
+  "Veřejná péče a placené volno vyžadují odvody. Soukromé řešení nechává volbu, ale účet nese přímo rodina.",
+  "Dotace na bydlení se mohou promítnout do cen. Veřejná výstavba potřebuje kapitál a daně; deregulace přenáší část nákladů na okolí.",
+  "Vyšší výdaje na školy musí někdo financovat. Bez změny řízení mohou zvýšit účet, aniž zvýší výsledky.",
+  "Regionální vyrovnávání znamená, že silnější obce část výnosu odevzdají. Projektové dotace přidávají lobbying a administrativu.",
+  "Péče zdarma v místě spotřeby není bezplatná: platí se daněmi, odvody, čekáním nebo omezením rozsahu.",
+  "Každý důchodový slib zaplatí vyšší odvod, pozdější odchod, soukromá úspora nebo dluh.",
+  "Vyšší zdanění firem a kapitálu může část účtu přesunout do nižších investic, mezd a vyšších cen. Dotace zase přesouvají riziko na poplatníka.",
+  "Cenový strop snižuje viditelný účet dnes, ale náklad přesune do daní, dluhu nebo nedostatku.",
+  "Čím více peněz stát rozděluje, tím větší absolutní částka je vystavena chybám a klientelismu; kontrola riziko snižuje, ale také stojí peníze a čas.",
+  "Propojený digitální stát šetří formuláře, ale koncentruje data a moc. Roztříštěnost se platí časem občana a duplicitní správou.",
+  "Povinně kratší pracovní doba při stejné mzdě zvyšuje cenu hodiny práce. Čistě smluvní model může naopak oslabit vyjednávací pozici zaměstnance.",
+  "Krizovou podporu vždy zaplatí současný poplatník, budoucí poplatník přes dluh, nebo příjemce škrtané služby."
 ]);
-
-const FAMILY_MODEL = Object.freeze({
-  labourCost: 120000,
-  essentialPrivateCosts: 45500,
-  currentGrossLabourLevyRate: 41.2,
-  currentCashSupport: 2400,
-  currentTaxQuota: 34,
-  currentMarginalWedge: 45.1
-});
-
-const el = id => document.getElementById(id);
-const introPanel = el("introPanel"), quizPanel = el("quizPanel"), resultPanel = el("resultPanel");
 
 el("startBtn").addEventListener("click", () => {
   introPanel.style.display = "none";
@@ -40,85 +32,85 @@ el("startBtn").addEventListener("click", () => {
 });
 
 function renderQuestion() {
-  const q = questions[current];
+  const question = questions[current];
   el("questionNumber").textContent = `Rozhodnutí ${current + 1}`;
-  el("questionTitle").textContent = q.title;
-  el("questionContext").textContent = q.context;
+  el("questionTitle").textContent = question.title;
+  el("questionContext").textContent = question.context;
   el("questionTradeoff").textContent = QUESTION_TRADEOFFS[current];
   el("progressText").textContent = `Otázka ${current + 1} z ${questions.length}`;
-  el("answeredText").textContent = `${selected.filter(v => v !== null).length} / ${questions.length} zodpovězeno`;
+  el("answeredText").textContent = `${selected.filter(value => value !== null).length} / ${questions.length} zodpovězeno`;
   el("progressFill").style.width = `${((current + 1) / questions.length) * 100}%`;
   el("backBtn").disabled = current === 0;
-  el("nextBtn").textContent = current === questions.length - 1 ? "Vyhodnotit účet" : "Další otázka";
+  el("nextBtn").textContent = current === questions.length - 1 ? "Spočítat výsledek" : "Další otázka";
   el("errorBox").style.display = "none";
 
-  const wrap = el("answers");
-  wrap.innerHTML = "";
-  q.options.forEach((opt, i) => {
-    const b = document.createElement("button");
-    b.type = "button";
-    b.className = "answer" + (selected[current] === i ? " selected" : "");
-    b.setAttribute("aria-pressed", selected[current] === i ? "true" : "false");
-    b.innerHTML = `
-      <span class="answer-letter">${String.fromCharCode(65 + i)}</span>
-      <span>
-        <strong>${opt.text}</strong>
-        <small>${opt.note}</small>
-        ${renderOptionImpact(opt)}
+  renderRunningPreview();
+
+  const answers = el("answers");
+  answers.innerHTML = "";
+  question.options.forEach((option, optionIndex) => {
+    const tentative = [...selected];
+    tentative[current] = optionIndex;
+    const scenario = TaxModel.compute(tentative);
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "answer" + (selected[current] === optionIndex ? " selected" : "");
+    button.setAttribute("aria-pressed", selected[current] === optionIndex ? "true" : "false");
+    button.innerHTML = `
+      <span class="answer-letter">${String.fromCharCode(65 + optionIndex)}</span>
+      <span class="answer-body">
+        <strong>${option.text}</strong>
+        <small>${option.note}</small>
+        ${renderTaxImpact(scenario)}
       </span>`;
-    b.addEventListener("click", () => {
-      selected[current] = i;
+    button.addEventListener("click", () => {
+      selected[current] = optionIndex;
       renderQuestion();
     });
-    wrap.appendChild(b);
+    answers.appendChild(button);
   });
 }
 
-function renderOptionImpact(opt) {
-  const s = opt.score;
-  const levyPp = clamp(
-    0.85 * s.redist - 0.70 * s.lr - 0.25 * s.growth + 0.20 * Math.max(0, -s.admin),
-    -4,
-    4
-  );
-  const monthlyCash = round100(-FAMILY_MODEL.labourCost * levyPp / 100);
-  const stateDelta = 0.75 * s.redist + 0.30 * s.coverage + 0.20 * s.family - 0.45 * s.econFreedom;
-  const incentiveDelta = 0.55 * s.growth + 0.55 * s.econFreedom + 0.35 * s.fiscal + 0.25 * s.admin - 0.50 * s.redist;
-  const riskDelta = 0.45 * s.redist - 0.80 * s.integrity - 0.35 * s.admin;
-
-  return `<span class="impact-row" aria-label="Izolovaný modelový dopad této odpovědi">
-    ${impactPill("Vlastní rozpočet", signedMoney(monthlyCash), monthlyCash)}
-    ${impactPill("Zásah státu", directionLabel(stateDelta), -stateDelta)}
-    ${impactPill("Pobídka k výkonu", directionLabel(incentiveDelta), incentiveDelta)}
-    ${impactPill("Riziko plýtvání", directionLabel(riskDelta), -riskDelta)}
-  </span>`;
+function renderRunningPreview() {
+  const scenario = TaxModel.compute(selected);
+  const answered = selected.filter(value => value !== null).length;
+  const label = answered ? `Průběžný účet po ${answered} volbách` : "Výchozí účet před první volbou";
+  el("runningPreviewTitle").textContent = label;
+  el("runningStateTake").textContent = TaxModel.fmtCZK(scenario.mandatoryLevies);
+  el("runningOwnCash").textContent = TaxModel.fmtCZK(scenario.ownChoiceCash);
+  el("runningSuccess").textContent = TaxModel.fmtCZK(scenario.successKeep);
+  el("runningRichTax").textContent = scenario.richTax > 55
+    ? `−${TaxModel.fmtCZK(scenario.richTaxSpilloverLow)} až −${TaxModel.fmtCZK(scenario.richTaxSpilloverHigh)}`
+    : scenario.richTax < 45
+      ? `+${TaxModel.fmtCZK(scenario.richTaxSpilloverLow)} až +${TaxModel.fmtCZK(scenario.richTaxSpilloverHigh)}`
+      : "bez významné změny";
 }
 
-function impactPill(label, value, favourability) {
-  const cls = favourability > 0.35 ? "good" : favourability < -0.35 ? "bad" : "neutral";
-  return `<span class="impact-pill ${cls}"><b>${label}:</b> ${value}</span>`;
-}
-
-function directionLabel(value) {
-  if (value > 0.75) return "výrazně ↑";
-  if (value > 0.20) return "mírně ↑";
-  if (value < -0.75) return "výrazně ↓";
-  if (value < -0.20) return "mírně ↓";
-  return "≈ beze změny";
+function renderTaxImpact(scenario) {
+  const taxDelta = scenario.mandatoryLevies - BASELINE_SCENARIO.mandatoryLevies;
+  const cashDelta = scenario.ownChoiceCash - BASELINE_SCENARIO.ownChoiceCash;
+  const successDelta = scenario.successKeep - BASELINE_SCENARIO.successKeep;
+  return `
+    <span class="answer-tax-impact">
+      <span class="answer-tax-head">Co tato volba znamená pro modelovou domácnost</span>
+      <span class="answer-tax-grid">
+        <span><em>Stát vezme měsíčně</em><b>${TaxModel.fmtCZK(scenario.mandatoryLevies)}</b><small>${signedMoney(taxDelta)} proti výchozímu stavu</small></span>
+        <span><em>Rodině zůstane</em><b>${TaxModel.fmtCZK(scenario.ownChoiceCash)}</b><small>${signedMoney(cashDelta)} pro vlastní rozhodnutí</small></span>
+        <span><em>Z dalších 10 000 Kč</em><b>${TaxModel.fmtCZK(scenario.successKeep)}</b><small>${signedMoney(successDelta)} proti výchozímu stavu</small></span>
+      </span>
+    </span>`;
 }
 
 function signedMoney(value) {
-  if (Math.abs(value) < 50) return "≈ 0 Kč/měs.";
-  const formatted = new Intl.NumberFormat("cs-CZ", { maximumFractionDigits: 0 }).format(Math.abs(value));
-  return `${value > 0 ? "+" : "−"}${formatted} Kč/měs.`;
+  if (Math.abs(value) < 50) return "beze změny";
+  return `${value > 0 ? "+" : "−"}${TaxModel.fmtCZK(Math.abs(value))}`;
 }
 
 el("backBtn").addEventListener("click", () => {
-  if (current > 0) {
-    current--;
-    renderQuestion();
-    quizPanel.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
+  if (current <= 0) return;
+  current -= 1;
+  renderQuestion();
+  quizPanel.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
 el("nextBtn").addEventListener("click", () => {
@@ -127,108 +119,14 @@ el("nextBtn").addEventListener("click", () => {
     return;
   }
   if (current < questions.length - 1) {
-    current++;
+    current += 1;
     renderQuestion();
     quizPanel.scrollIntoView({ behavior: "smooth", block: "start" });
-  } else {
-    showResults();
+    return;
   }
+  showResults();
 });
 
-function dimBounds(dim) {
-  let min = 0, max = 0;
-  questions.forEach(q => {
-    const vals = q.options.map(o => o.score[dim] ?? 0);
-    min += Math.min(...vals);
-    max += Math.max(...vals);
-  });
-  return { min, max };
-}
-
-function calculateScores() {
-  const raw = Object.fromEntries(DIMS.map(d => [d, 0]));
-  questions.forEach((q, i) => {
-    const sc = q.options[selected[i]].score;
-    DIMS.forEach(d => raw[d] += sc[d] ?? 0);
-  });
-  const norm = {};
-  DIMS.forEach(d => {
-    const { min, max } = dimBounds(d);
-    norm[d] = Math.round(((raw[d] - min) / (max - min)) * 100);
-  });
-  return { raw, norm };
-}
-
-const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
-const round1 = v => Math.round(v * 10) / 10;
-const round100 = v => Math.round(v / 100) * 100;
-const pctSigned = v => `${v > 0 ? "+" : ""}${String(round1(v)).replace(".", ",")} %`;
-const fmtCZK = v => new Intl.NumberFormat("cs-CZ", { style: "currency", currency: "CZK", maximumFractionDigits: 0 }).format(v);
-const fmtNumber = v => new Intl.NumberFormat("cs-CZ", { maximumFractionDigits: 0 }).format(v);
-
-function lrLabel(v) {
-  if (v < 20) return "výrazná ekonomická levice";
-  if (v < 40) return "středolevice";
-  if (v <= 60) return "ekonomický střed";
-  if (v <= 80) return "středopravice";
-  return "výrazná ekonomická pravice";
-}
-
-function level(v) {
-  return v >= 80 ? "velmi vysoká" : v >= 65 ? "vysoká" : v >= 45 ? "střední" : v >= 30 ? "nízká" : "velmi nízká";
-}
-
-function archetypeFor(n, capacity, stateScope, incentiveIndex) {
-  if (stateScope >= 68 && capacity < 45) {
-    return [
-      "Přerozdělující stát s vysokým účtem",
-      "Volíte široké veřejné garance a zásahy, ale institucionální kapacita za rozsahem státu zaostává. Rodina odevzdává více peněz a významná část se rozpouští ve správě, špatném cílení nebo slabé kontrole."
-    ];
-  }
-  if (stateScope >= 68 && capacity >= 65) {
-    return [
-      "Výkonný, ale nákladný sociální stát",
-      "Stát umí část vysokých odvodů převést na použitelné služby. Cena je však zřetelná: menší hotovost pod vlastní kontrolou, nižší mezní odměna za další výkon a větší objem prostředků vystavený politickému rozhodování."
-    ];
-  }
-  if (stateScope <= 35 && capacity >= 60 && incentiveIndex >= 60) {
-    return [
-      "Tržně-institucionální stát",
-      "Ponecháváte domácnostem a firmám větší část vytvořené hodnoty, chráníte soutěž a vlastnická práva a stát soustřeďujete na omezené, kontrolovatelné funkce. Rizikem je nedostatečné krytí lidí bez rezervy."
-    ];
-  }
-  if (stateScope <= 35 && capacity < 45) {
-    return [
-      "Nízkodaňový, ale slabě chráněný stát",
-      "Stát bere málo, ale současně nedokáže spolehlivě chránit soutěž, práva a základní pojistky. Soukromá spotřeba je vyšší, část úspor však domácnost vydá za náhradu nefunkčních služeb a pojištění rizik."
-    ];
-  }
-  if (incentiveIndex >= 65 && capacity >= 60) {
-    return [
-      "Konkurenční reformní stát",
-      "Kombinujete relativně nízké distorzní daně, cílenou pomoc a měřitelný výkon institucí. Veřejné programy musí prokazovat návratnost a nesmějí automaticky vytlačovat soukromou volbu."
-    ];
-  }
-  if (n.redist >= 58) {
-    return [
-      "Solidární stát s omezenou soukromou volbou",
-      "Upřednostňujete sdílení rizik a široké veřejné služby. Test současně ukazuje cenu: vyšší povinné odvody, menší rozpočet pro vlastní spotřebu a slabší odměnu za dodatečný výkon."
-    ];
-  }
-  return [
-    "Smíšený stát s dvojím účtem",
-    "Kombinujete tržní a přerozdělovací nástroje. Některé volby ponechávají peníze lidem, jiné je vracejí přes programy a služby. Výsledkem je kompromis, ale také složitější systém a méně průhledná odpovědnost."
-  ];
-}
-
-function leakBand(integritySystem) {
-  if (integritySystem >= 80) return { label: "nízké", min: 3, max: 7 };
-  if (integritySystem >= 65) return { label: "mírné", min: 6, max: 10 };
-  if (integritySystem >= 50) return { label: "zvýšené", min: 9, max: 14 };
-  if (integritySystem >= 35) return { label: "vysoké", min: 13, max: 19 };
-  return { label: "velmi vysoké", min: 18, max: 25 };
-}
-
-function selectedOption(i) {
-  return questions[i].options[selected[i]];
+function selectedOption(index) {
+  return questions[index].options[selected[index]];
 }
