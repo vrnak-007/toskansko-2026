@@ -9,9 +9,6 @@
     "CONSENT_VERSION": "2026-07-16-v1",
     "RETENTION_DAYS": "365"
   },
-  "secrets": {
-    "required": ["ADMIN_TOKEN", "PSEUDONYM_KEY"]
-  },
   "d1_databases": [
     {
       "binding": "DB"
