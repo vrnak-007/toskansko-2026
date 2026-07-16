@@ -1,3 +1,12 @@
+function analyticsOptionId(text){
+  let hash=2166136261;
+  for(let i=0;i<text.length;i++){
+    hash^=text.charCodeAt(i);
+    hash=Math.imul(hash,16777619);
+  }
+  return `o${(hash>>>0).toString(16).padStart(8,"0")}`;
+}
+
 function showResults(){
   const {norm:n}=calculateScores();
   const capacity=Math.round(.45*n.integrity+.20*n.admin+.20*n.fiscal+.15*n.growth);
@@ -88,6 +97,44 @@ function showResults(){
   el("risks").innerHTML=bottom.map(x=>`<li><strong>${x[0]} (${x[1]}/100):</strong> ${riskText(x[0])}</li>`).join("");
 
   resultPanel.dataset.summary=makeSummary({n,capacity,efficiency,freedom,taxQuota,gdp10,timeHours,targetPct,coveragePct,leak,arch,familyMoney});
+
+  const completion={
+    completedAt:new Date().toISOString(),
+    archetype:arch,
+    leftRight:n.lr,
+    redistribution:n.redist,
+    stateCapacity:capacity,
+    efficiency,
+    integrity:integritySystem,
+    economicFreedom:n.econFreedom,
+    civicFreedom:n.civicFreedom,
+    targetPrecision:n.target,
+    coverage:n.coverage,
+    fiscal:n.fiscal,
+    growthPotential:n.growth,
+    timeAutonomy:n.time,
+    adminSimplicity:n.admin,
+    familyImpact:n.family,
+    taxQuota,
+    gdp10:round1(gdp10),
+    familyMoney,
+    freeTimeHours:timeHours,
+    targetPct,
+    coveragePct,
+    leakMin:leak.min,
+    leakMax:leak.max,
+    answers:questions.map((question,index)=>{
+      const option=selectedOption(index);
+      return {
+        questionId:`q${String(index+1).padStart(2,"0")}`,
+        optionId:analyticsOptionId(option.text),
+        questionTitle:question.title,
+        optionLabel:option.text
+      };
+    })
+  };
+  window.__spravedlivyRustCompletion=completion;
+  window.dispatchEvent(new CustomEvent("spravedlivy-rust:completed",{detail:completion}));
   resultPanel.scrollIntoView({behavior:"smooth",block:"start"});
 }
 function riskText(name){
@@ -117,5 +164,5 @@ el("copyBtn").addEventListener("click",async()=>{
 });
 el("printBtn").addEventListener("click",()=>window.print());
 el("restartBtn").addEventListener("click",()=>{
-  selected.fill(null);current=0;resultPanel.style.display="none";introPanel.style.display="block";window.scrollTo({top:0,behavior:"smooth"});
+  selected.fill(null);current=0;resultPanel.style.display="none";introPanel.style.display="block";window.__spravedlivyRustCompletion=null;window.scrollTo({top:0,behavior:"smooth"});
 });
