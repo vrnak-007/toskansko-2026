@@ -5,60 +5,66 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
 <meta name="theme-color" content="#17252d">
-<meta name="description" content="Tržně-liberální test 15 rozhodnutí: kolik stát vezme, kolik vrátí, kolik zůstane domácnosti a jak se zdanění vysokých příjmů a kapitálu přenáší do mezd, cen a investic.">
+<meta name="description" content="Polemický test knihy Spravedlivý růst: daně, dluh, veřejné služby a 20letá akumulace majetku pro mediánovou domácnost i rodinu se dvěma příjmy.">
 <meta name="robots" content="index,follow">
 <meta name="referrer" content="no-referrer">
 <link rel="canonical" href="https://vrnak-007.github.io/toskansko-2026/spravedlivy-rust-test/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="cs_CZ">
-<meta property="og:title" content="Spravedlivý růst: kdo opravdu zaplatí zdanění bohatých?">
-<meta property="og:description" content="Patnáct voleb a jeden přehledný účet domácnosti: stát vezme, stát vrátí, vám zůstane a z dalšího výkonu udržíte.">
+<meta property="og:title" content="Spravedlivý růst: kdo zaplatí dnes a za 20 let?">
+<meta property="og:description" content="15 návrhů knihy proti tržním alternativám. U každé volby uvidíte daňový účet, schodek, budoucí dluhovou službu a rozdíl majetku za 20 let.">
 <meta property="og:url" content="https://vrnak-007.github.io/toskansko-2026/spravedlivy-rust-test/">
 <meta name="twitter:card" content="summary">
-<title>Spravedlivý růst: kdo opravdu zaplatí?</title>
+<title>Spravedlivý růst: kdo zaplatí dnes a za 20 let?</title>
 <link rel="stylesheet" href="./styles.css">
 <link rel="stylesheet" href="./analytics.css">
-<link rel="stylesheet" href="./market-model.css">
+<link rel="stylesheet" href="./v4.css">
 </head>
 <body>
 <div class="shell">
   <header class="hero">
-    <p class="eyebrow">Tržně-liberální daňový test</p>
-    <h1>Spravedlivý růst:<br>kdo opravdu zaplatí?</h1>
-    <p class="lead">Patnáct rozhodnutí přepočítá politické sliby na účet domácnosti. Uvidíte, kolik stát vezme, kolik vrátí, kolik vám zůstane a jak se vyšší zdanění vysokých příjmů, firem a kapitálu může přenést na mzdy, ceny a investice.</p>
-    <div class="hero-grid hero-grid-four">
-      <div class="hero-stat"><b>120 000 Kč</b><span>měsíční hodnota práce rodiny</span></div>
-      <div class="hero-stat"><b>4 čísla</b><span>hlavní výsledek bez složitých indexů</span></div>
-      <div class="hero-stat"><b>15 voleb</b><span>u každé okamžitý daňový účet</span></div>
-      <div class="hero-stat"><b>10 000 Kč</b><span>test návratnosti dalšího výkonu</span></div>
+    <p class="eyebrow">Polemika s knihou · verze 4.0</p>
+    <h1>Spravedlivý růst:<br>kdo zaplatí dnes a za 20 let?</h1>
+    <p class="lead">Patnáct veřejně popsaných tezí knihy Daniela Prokopa stavíme proti tržním a fiskálně odlišným alternativám. Každou volbu přepočítáme na daňový účet domácnosti, schodek státu, dluhovou službu a nevytvořený nebo dodatečný majetek.</p>
+    <div class="hero-grid hero-grid-five">
+      <div class="hero-stat"><b>15</b><span>tezí knihy a alternativ</span></div>
+      <div class="hero-stat"><b>2</b><span>příjmové profily</span></div>
+      <div class="hero-stat"><b>1 904 Kč</b><span>dnešní dluhová služba / domácnost / měsíc</span></div>
+      <div class="hero-stat"><b>20 let</b><span>akumulace kapitálu</span></div>
+      <div class="hero-stat"><b>6 %</b><span>hlavní investiční scénář</span></div>
     </div>
-    <div class="notice"><strong>Hodnotové východisko:</strong> test je záměrně tržně-liberální. Vyšší váhu dává penězům pod kontrolou jednotlivce, motivaci pracovat a investovat, konkurenci a omezenému státu. Veřejné služby započítává jako protihodnotu, nikoli jako „peníze zdarma“. Závěr je scénář modelu, ne univerzální ekonomický zákon.</div>
+    <div class="notice"><strong>Hodnotové východisko:</strong> test je otevřeně tržně-liberální. Za náklad považuje ztrátu soukromé volby, vysoké mezní sazby, dluh a politické přidělování kapitálu. Veřejné služby ale nezamlčuje: jejich účetní náklad zveřejňuje po položkách a jejich kvalitu hodnotí odděleně. Výsledek je scénář, nikoli univerzální ekonomický zákon.</div>
   </header>
 
   <section id="introPanel" class="panel">
-    <div class="intro-grid">
+    <div class="intro-grid intro-grid-v4">
       <div>
-        <p class="eyebrow" style="color:var(--accent)">Princip testu</p>
-        <h2>Daně neplatí abstraktní „bohatí“. Účet se v ekonomice přesouvá.</h2>
-        <p>Vyšší daň z práce sníží čistou mzdu. Vyšší daň z firmy nebo kapitálu může snížit investici, mzdu, výnos vlastníka nebo zvýšit cenu. Plošná dávka zase vyžaduje, aby stát peníze nejprve vybral, spravoval a rozdělil.</p>
+        <p class="eyebrow" style="color:var(--accent)">Nejdříve zvolte domácnost</p>
+        <h2>Stejná politika může pomoci mediánovému příjmu a současně zatížit vyšší příjem — nebo naopak.</h2>
+        <p>Proto test nepoužívá jedinou domácnost. Přepínač lze změnit i během vyplňování a všechny částky se okamžitě přepočítají.</p>
+        <label class="profile-picker" for="profileSelectIntro">
+          <span>Modelový profil</span>
+          <select id="profileSelectIntro">
+            <option value="median">Mediánová domácnost · 60 000 Kč nákladů práce</option>
+            <option value="family">Rodina se dvěma příjmy · 120 000 Kč nákladů práce</option>
+          </select>
+        </label>
+        <p id="profileDescription" class="profile-description"></p>
         <ul class="compact-list">
-          <li>U každé odpovědi uvidíte absolutní měsíční částku: <strong>stát vezme</strong>, <strong>rodině zůstane</strong> a <strong>z dalších 10 000 Kč výkonu zůstane</strong>.</li>
-          <li>Průběžný účet se přepočítává po každé volbě. Nečekáte až na konec.</li>
-          <li>Výsledek má čtyři hlavní čísla a jednoduché srovnání s výchozím stavem.</li>
-          <li>U zdanění vysokých příjmů a podnikatelského kapitálu se zvlášť ukáže modelový nepřímý dopad na běžnou domácnost.</li>
+          <li>U každé možnosti uvidíte: <strong>stát vezme</strong>, <strong>vám zůstane</strong>, <strong>roční saldo</strong> a <strong>majetek za 20 let</strong>.</li>
+          <li>Schodek se převádí na půjčku připadající na domácnost a na budoucí úrokový účet.</li>
+          <li>Každá otázka obsahuje viditelnou parafrázi konkrétní veřejně popsané teze knihy a zdroj.</li>
+          <li>Veřejné služby jsou oceněny účetním nákladem z oficiálních dat, nikoli skrytým subjektivním koeficientem.</li>
         </ul>
-        <div class="input-basis">
-          <b>Jednotný model domácnosti</b>
-          <span>Petr a Jana z Hvozdnice vytvářejí měsíční náklady práce 120 000 Kč. Hlavní nezbytné soukromé výdaje činí 45 500 Kč. Jde o analytický scénář, nikoli osobní daňové přiznání.</span>
-        </div>
       </div>
       <div class="start-card">
-        <strong>Na konci stačí přečíst</strong>
+        <strong>Pět hlavních výsledků</strong>
         <div class="start-metrics">
           <span>kolik stát měsíčně vezme</span>
-          <span>kolik vrátí v penězích a službách</span>
-          <span>kolik zůstane pod vaší kontrolou</span>
-          <span>kolik udržíte z dalšího výkonu</span>
+          <span>jaký účetní náklad služeb připadá na domácnost</span>
+          <span>kolik zůstane pro vlastní volbu</span>
+          <span>kolik zůstane z dalšího výkonu</span>
+          <span>kolik majetku vznikne nebo nevznikne za 20 let</span>
         </div>
         <button id="startBtn" class="primary wide">Spustit test</button>
         <div class="analytics-consent">
@@ -75,30 +81,46 @@
   </section>
 
   <section id="quizPanel" class="panel" aria-live="polite">
-    <div class="topline">
-      <div class="progress-meta" id="progressText">Otázka 1 z 15</div>
-      <div class="progress-meta" id="answeredText">0 / 15 zodpovězeno</div>
+    <div class="quiz-toolbar">
+      <div>
+        <div class="progress-meta" id="progressText">Otázka 1 z 15</div>
+        <div class="progress-meta" id="answeredText">0 / 15 zodpovězeno</div>
+      </div>
+      <label class="profile-picker compact" for="profileSelectQuiz">
+        <span>Profil</span>
+        <select id="profileSelectQuiz">
+          <option value="median">60 000 Kč</option>
+          <option value="family">120 000 Kč</option>
+        </select>
+      </label>
     </div>
     <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
 
-    <section class="running-preview" aria-label="Průběžný daňový účet">
+    <section class="running-preview" aria-label="Průběžný účet">
       <div class="running-preview-head">
-        <span id="runningPreviewTitle">Výchozí účet před první volbou</span>
-        <small>Zbývající otázky mají neutrální hodnotu.</small>
+        <span id="runningPreviewTitle">Výchozí účet</span>
+        <small>Nezodpovězené otázky jsou neutrální.</small>
       </div>
-      <div class="running-preview-grid">
+      <div class="running-preview-grid running-preview-five">
         <div><span>Stát vezme</span><b id="runningStateTake">–</b><small>měsíčně</small></div>
-        <div><span>Rodině zůstane</span><b id="runningOwnCash">–</b><small>pro vlastní volbu</small></div>
-        <div><span>Z dalších 10 000 Kč</span><b id="runningSuccess">–</b><small>rodina udrží</small></div>
-        <div><span>Zdanění bohatých a firem</span><b id="runningRichTax">–</b><small>nepřímý měsíční dopad</small></div>
+        <div><span>Vám zůstane</span><b id="runningOwnCash">–</b><small>pro vlastní volbu</small></div>
+        <div><span>Z dalších 10 000 Kč</span><b id="runningSuccess">–</b><small>čistý výnos</small></div>
+        <div><span>Roční saldo</span><b id="runningDeficit">–</b><small>stát</small></div>
+        <div><span>Majetek za 20 let</span><b id="runningCapital">–</b><small>rozdíl při 6 %</small></div>
       </div>
     </section>
+
+    <aside class="book-context">
+      <p class="eyebrow" style="color:#7c402d">Co veřejně navrhuje kniha</p>
+      <p id="bookSummary"></p>
+      <a id="bookSource" href="#" target="_blank" rel="noopener noreferrer"></a>
+    </aside>
 
     <p class="question-number" id="questionNumber"></p>
     <h2 class="question-title" id="questionTitle"></h2>
     <p class="question-context" id="questionContext"></p>
     <div class="question-tradeoff" id="questionTradeoff"></div>
-    <div class="impact-explainer"><strong>Čtěte hlavně tři částky v každé odpovědi.</strong> Jde o průběžný scénář po započtení této volby; nezodpovězené otázky jsou zatím neutrální.</div>
+    <div class="impact-explainer"><strong>Čtěte čtyři částky v každé odpovědi.</strong> Jde o průběžný scénář po započtení dané volby; zbývající otázky zůstávají neutrální.</div>
     <div class="answers" id="answers"></div>
     <div class="error" id="errorBox">Nejprve vyberte jednu odpověď.</div>
     <div class="quiz-nav">
@@ -110,27 +132,44 @@
   <section id="resultPanel" class="panel">
     <div class="result-head">
       <div>
-        <div class="result-kicker">Váš daňový model České republiky</div>
+        <div class="result-kicker">Váš daňový, dluhový a kapitálový model ČR</div>
         <h2 id="archetype"></h2>
         <p id="archetypeDesc"></p>
       </div>
     </div>
 
     <section class="verdict-box">
-      <p class="eyebrow" style="color:var(--accent)">Jedna věta</p>
+      <p class="eyebrow" style="color:var(--accent)">Výsledek v jedné větě</p>
       <h2 id="verdictTitle">–</h2>
       <p id="verdictText"></p>
     </section>
 
-    <div class="headline-money-grid">
+    <div class="headline-money-grid headline-five">
       <article class="headline-money take"><span>1. Stát vezme</span><b id="stateTakeValue">–</b><small id="stateTakeSub"></small></article>
-      <article class="headline-money return"><span>2. Stát vrátí</span><b id="stateReturnValue">–</b><small id="stateReturnSub"></small></article>
+      <article class="headline-money return"><span>2. Veřejná protihodnota</span><b id="stateReturnValue">–</b><small id="stateReturnSub"></small></article>
       <article class="headline-money keep"><span>3. Vám zůstane</span><b id="ownControlValue">–</b><small id="ownControlSub"></small></article>
       <article class="headline-money work"><span>4. Z dalšího výkonu</span><b id="successKeepValue">–</b><small id="successKeepSub"></small></article>
+      <article class="headline-money capital"><span>5. Majetek za 20 let</span><b id="capitalValue">–</b><small id="capitalSub"></small></article>
     </div>
 
+    <section class="debt-box">
+      <div class="section-head">
+        <div><p class="eyebrow" style="color:#8c3d2a">Odložená daň</p><h2>Dluhový účet domácnosti</h2></div>
+        <span class="ledger-basis">4 813 103 domácností</span>
+      </div>
+      <p id="debtSentence" class="debt-sentence"></p>
+      <div class="debt-grid">
+        <div><span>Dnešní dluhová služba</span><b id="currentDebtService">–</b><small>na domácnost / měsíc</small></div>
+        <div><span>Schválený schodek 2026</span><b>310 mld. Kč</b><small id="currentBorrowing">–</small></div>
+        <div><span>Váš roční rozpočet</span><b id="modelDeficit">–</b><small id="modelBorrowing">–</small></div>
+        <div><span>Dluhová služba po 10 letech</span><b id="futureDebtService">–</b><small id="futureDebtDelta">–</small></div>
+        <div><span>Změna dluhu za 10 let</span><b id="debtStock10">–</b><small>při opakování ročního salda</small></div>
+      </div>
+      <p id="debtAssumption" class="fineprint"></p>
+    </section>
+
     <section class="simple-flow">
-      <div class="section-head"><div><p class="eyebrow" style="color:var(--accent)">Peníze v jednom sloupci</p><h2>Měsíční účet rodiny</h2></div><span class="ledger-basis">hodnota práce 120 000 Kč</span></div>
+      <div class="section-head"><div><p class="eyebrow" style="color:var(--accent)">Peníze v jednom sloupci</p><h2>Měsíční účet domácnosti</h2></div></div>
       <div id="moneyFlow" class="money-flow"></div>
       <p id="flowNote" class="flow-note"></p>
     </section>
@@ -154,8 +193,31 @@
       </div>
     </section>
 
+    <section class="service-section">
+      <div class="section-head">
+        <div><p class="eyebrow" style="color:var(--accent)">Transparentní protihodnota</p><h2>Co stojí veřejné služby</h2></div>
+        <div class="service-summary"><span>Celkem / domácnost / měsíc</span><b id="serviceTotal">–</b><small id="serviceDelta"></small></div>
+      </div>
+      <div class="comparison-wrap">
+        <table class="comparison-table service-table">
+          <thead><tr><th>Oblast</th><th>Oficiální základ</th><th>Změna vašich voleb</th><th>Náklad / domácnost / měsíc</th></tr></thead>
+          <tbody id="serviceBody"></tbody>
+        </table>
+      </div>
+      <div class="delivery-row"><span>Kvalita a dosažitelnost výdajů — samostatně, bez přepisování účetního nákladu</span><b id="deliveryIndex">–</b></div>
+      <p id="serviceMethodNote" class="fineprint"></p>
+    </section>
+
+    <section class="book-alignment-section">
+      <div class="section-head">
+        <div><p class="eyebrow" style="color:#7c402d">Skutečná polemika s knihou</p><h2>Shoda s veřejně popsanými tezemi Spravedlivého růstu</h2></div>
+        <b id="bookAlignedCount" class="book-count">–</b>
+      </div>
+      <ul id="bookAlignedList" class="book-aligned-list"></ul>
+    </section>
+
     <section class="society-box">
-      <p class="eyebrow" style="color:var(--accent)">Dopad na společnost</p>
+      <p class="eyebrow" style="color:#b8ddd5">Dopad na společnost</p>
       <p id="societyVerdict"></p>
     </section>
 
@@ -165,7 +227,7 @@
     </article>
 
     <details class="result-details">
-      <summary>Ukázat podrobná čísla a rizika</summary>
+      <summary>Ukázat podrobná čísla, citlivosti a rizika</summary>
       <div id="detailGrid" class="detail-grid"></div>
     </details>
 
@@ -178,43 +240,61 @@
   </section>
 
   <section class="panel method-panel">
-    <h2>Co je empirický údaj a co je předpoklad modelu</h2>
+    <h2>Co je údaj, co je vzorec a co je hodnotový předpoklad</h2>
     <details open>
-      <summary>Co test tvrdí</summary>
-      <p>Test tvrdí, že daňový účet má vždy nositele. Vyšší povinný odvod mechanicky snižuje peníze pod vlastní kontrolou. U daní z firem a mobilního kapitálu se část břemene může přenést na zaměstnance, zákazníky a investice. Rozsah přenosu závisí na trhu, mobilitě kapitálu, konkurenci a konstrukci daně.</p>
+      <summary>1. Dluh a jeho převod na domácnost</summary>
+      <p>Schválený rozpočet 2026 pracuje se schodkem <strong>310 mld. Kč</strong>. Kapitola Státní dluh obsahuje výdaje přibližně <strong>109,97 mld. Kč</strong>. Při rozdělení mezi 4 813 103 hospodařících domácností ze Sčítání 2021 jde přibližně o <strong>1 904 Kč měsíčně na domácnost</strong>. Tento náklad je už financován z dnešních veřejných příjmů a není v modelu odečten podruhé.</p>
+      <p>Budoucí scénář předpokládá, že zvolené roční saldo trvá deset let a nový dluh nese průměrný úrok 3,5 %. Jde o citlivostní předpoklad, nikoli prognózu MF.</p>
     </details>
     <details>
-      <summary>Co test netvrdí</summary>
-      <p>Netvrdí, že každé zdanění vysokého příjmu automaticky ochudí každého člověka, ani že všechny veřejné výdaje jsou bezcenné. Takový univerzální závěr empirická literatura nepodporuje. Výsledek proto ukazuje podmíněný tržně-liberální scénář a odděluje povinný odvod, veřejnou protihodnotu a dynamický přenos.</p>
+      <summary>2. Majetek za 20 let</summary>
+      <p>Rozdíl v částce „vám zůstane“ se považuje za pravidelnou měsíční investici nebo chybějící investici. Hlavní výsledek používá 6 % ročně a měsíční kapitalizaci:</p>
+      <p class="formula-block">FV = měsíční rozdíl × ((1 + 0,06 / 12)<sup>240</sup> − 1) / (0,06 / 12)</p>
+      <p>Podrobnosti ukazují také citlivost 4 % a 8 %. Částky jsou nominální, před poplatky, daněmi a inflací.</p>
     </details>
     <details>
-      <summary>Jak vzniká nepřímý dopad „daně na bohaté“</summary>
-      <p>Model identifikuje volby zvyšující zdanění vysokých příjmů, firem a podnikatelského kapitálu. Z dodatečného zatížení počítá citlivostní přenos 20–50 % do mezd, investic a cen. Horní část intervalu odpovídá empirickým zjištěním, že pracovníci mohou nést významnou část lokální firemní daně; dolní část respektuje studie, které nacházejí menší agregátní účinky majetkových daní. Interval není českým kauzálním odhadem.</p>
+      <summary>3. Dva příjmové profily</summary>
+      <p>Medián hrubé mzdy za rok 2025 činil podle ČSÚ 44 337 Kč. Profil 60 000 Kč nákladů práce je zaokrouhlený analytický převod jednoho mediánového zaměstnance po započtení povinných nákladů zaměstnavatele. Druhý profil používá 120 000 Kč pro domácnost se dvěma pracovními příjmy. Nezbytné soukromé výdaje jsou modelové předpoklady 30 000 Kč a 45 500 Kč.</p>
     </details>
     <details>
-      <summary>Hlavní zdroje</summary>
+      <summary>4. Veřejná protihodnota je cost-based, nikoli subjektivní</summary>
+      <p>Model používá účetní náklad z veřejných zdrojů: zdravotnictví 596,1 mld. Kč v roce 2024; pro rok 2026 kapitolu školství 268,66 mld. Kč, vnitro a justici 155,32 mld. Kč a dopravu 129,43 mld. Kč. Každá částka se dělí počtem domácností a dvanácti měsíci.</p>
+      <p>Výdajový náklad se nesnižuje skrytým „koeficientem užitku“. Efektivita, integrita a dostupnost jsou zobrazeny zvlášť jako index dodání. To dovoluje kritizovat jak podhodnocení služeb, tak představu, že každá rozpočtová koruna automaticky vytváří stejnou hodnotu.</p>
+    </details>
+    <details>
+      <summary>5. Jak jsou otázky svázány s knihou</summary>
+      <p>Každá otázka začíná parafrází veřejně popsané teze knihy a odkazem na zdroj. Nejde o doslovné citace ani tvrzení, že jedna možnost přesně reprodukuje celé autorovo řešení. Témata zahrnují daňový mix, nízkopříjmovou práci, exekuce, rodiče, bydlení, selekci a řízení škol, prevenci, penzijní spoření, práci ve vyšším věku, migraci, obce, kapitálové výjimky, firemní investice a dluh.</p>
+    </details>
+    <details>
+      <summary>6. Incidence daní z vysokých příjmů a kapitálu</summary>
+      <p>Model používá citlivostní interval 20–50 % dodatečného výběru z firem a mobilního kapitálu, který se může v delším období přenést na ostatní přes mzdy, ceny a investice. Hlavní hotovostní výsledek používá střed intervalu 35 %. Není to český kauzální odhad ani tvrzení, že každá majetková daň má stejný účinek.</p>
+    </details>
+    <details>
+      <summary>7. Zdroje</summary>
       <ol class="source-list">
-        <li><a href="https://www.oecd.org/en/publications/taxation-and-economic-growth_241216205486.html" target="_blank" rel="noopener">OECD: Taxation and Economic Growth</a> – rozdílné růstové dopady daní; firemní a osobní příjmové daně patří mezi distorznější.</li>
-        <li><a href="https://pubs.aeaweb.org/doi/abs/10.1257/aer.20130570" target="_blank" rel="noopener">Fuest, Peichl a Siegloch: Do Higher Corporate Taxes Reduce Wages?</a> – německá mikrodata; pracovníci nesli přibližně polovinu lokální firemní daňové zátěže.</li>
-        <li><a href="https://www.nber.org/papers/w32153" target="_blank" rel="noopener">Jakobsen et al.: Taxing Top Wealth</a> – migrace bohatých a menší, ale měřitelné agregátní dopady na investice, zaměstnanost a přidanou hodnotu.</li>
-        <li><a href="https://www.nber.org/papers/w20489" target="_blank" rel="noopener">Milligan a Smart: Taxation and Top Incomes in Canada</a> – vysoké příjmy reagují na sazby výrazněji než nižší příjmy.</li>
-        <li><a href="https://pubs.aeaweb.org/doi/abs/10.1257/pol.6.1.230" target="_blank" rel="noopener">Piketty, Saez a Stantcheva: Optimal Taxation of Top Labor Incomes</a> – protiargument: nižší horní sazby nejsou automaticky spojeny s vyšším agregátním růstem.</li>
-        <li><a href="https://www.oecd.org/en/publications/taxing-wages-2026_8c611f4a-en.html" target="_blank" rel="noopener">OECD: Taxing Wages 2026</a> – kalibrace českého průměrného a mezního daňového klínu.</li>
-        <li><a href="https://www.hostbrno.cz/spravedlivy-rust/" target="_blank" rel="noopener">Daniel Prokop: Spravedlivý růst</a> – kniha, vůči jejímuž přístupu test vytváří tržně-liberální protiargument.</li>
+        <li><a href="https://mf.gov.cz/cs/ministerstvo/media/tiskove-zpravy/2026/snemovna-schvalila-zakon-o-statnim-rozpoctu-2026-63269" target="_blank" rel="noopener">Ministerstvo financí: schválený státní rozpočet 2026</a> — schodek 310 mld. Kč a rozpočtové kapitoly.</li>
+        <li><a href="https://csu.gov.cz/scitani-2021" target="_blank" rel="noopener">ČSÚ: Sčítání 2021</a> — 4 813 103 hospodařících domácností.</li>
+        <li><a href="https://statistikaamy.csu.gov.cz/zdravotni-pece-v-roce-2024-stala-64-tisic-korun-na-osobu" target="_blank" rel="noopener">ČSÚ: výdaje na zdravotní péči 2024</a> — veřejné zdroje 596,1 mld. Kč.</li>
+        <li><a href="https://csu.gov.cz/struktura-mezd-zamestnancu" target="_blank" rel="noopener">ČSÚ: struktura mezd 2025</a> — medián 44 337 Kč.</li>
+        <li><a href="https://kavarna.hostbrno.cz/clanky/omezujeme-sance-na-uspech-a-rozvoj-spouste-lidi-sociolog-daniel-prokop-o-nove-knize-spravedlivy-rust" target="_blank" rel="noopener">Kavárna Host: rozhovor Daniela Prokopa k nové knize</a> — hlavní veřejně popsané návrhy.</li>
+        <li><a href="https://www.hostbrno.cz/spravedlivy-rust/" target="_blank" rel="noopener">Host: oficiální stránka knihy Spravedlivý růst</a>.</li>
+        <li><a href="https://www.oecd.org/en/publications/taxing-wages-2026_8c611f4a-en.html" target="_blank" rel="noopener">OECD: Taxing Wages 2026</a> — český průměrný a mezní daňový klín.</li>
+        <li><a href="https://pubs.aeaweb.org/doi/abs/10.1257/aer.20130570" target="_blank" rel="noopener">Fuest, Peichl a Siegloch</a> — incidence lokální firemní daně na mzdy.</li>
       </ol>
     </details>
-    <p class="fineprint">Verze 3.0 · červenec 2026. Částky jsou transparentní scénářové převody pro jednu modelovou domácnost. Nejde o osobní daňovou kalkulačku, reprezentativní průzkum ani jistou makroekonomickou prognózu.</p>
+    <p class="fineprint">Verze 4.0 · červenec 2026. Model je auditovatelný ve zdrojovém kódu. Není osobní daňovou kalkulačkou, reprezentativním průzkumem ani jistou prognózou.</p>
   </section>
 </div>
 <div class="toast" id="toast">Výsledek byl zkopírován.</div>
 
 <script src="./data-core.js"></script>
-<script src="./questions-1.js"></script>
-<script src="./questions-2.js"></script>
-<script src="./questions-3.js"></script>
-<script src="./tax-model.js"></script>
-<script src="./app-core.js"></script>
-<script src="./app-results.js"></script>
+<script src="./questions-v4-a.js"></script>
+<script src="./questions-v4-b.js"></script>
+<script src="./questions-v4-c.js"></script>
+<script src="./tax-model-v4.js"></script>
+<script src="./app-core-v4.js"></script>
+<script src="./app-results-v4-a.js"></script>
+<script src="./app-results-v4-b.js"></script>
 <script src="./analytics.js"></script>
 </body>
 </html>
